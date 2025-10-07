@@ -5,7 +5,7 @@ const app = express()
 
 // establish mongodb database (db) connection
 const uri = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/mydatabase"
-const PORT = 3000
+const PORT = 3300
 
 // handle all static files in the /public folder
 app.use(express.static(path.join(__dirname, "public")))
@@ -24,10 +24,7 @@ const user_schema = new mongoose.Schema({
     signed_in: { type: Boolean, required: true },
     first_name: String,
     last_name: String, 
-    tasks: [{
-        priority: Number,
-        text: String
-    }]
+    credits: Number,
 }, { timestamps: true })
 
 const User = mongoose.model("User", user_schema)
@@ -40,11 +37,13 @@ app.get("/signup", (req, res) =>
     {res.sendFile(path.join(__dirname, "public", "sign_up.html"))})
 // send signin page html
 app.get("/signin", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "sign_in.html"))
-})
+    res.sendFile(path.join(__dirname, "public", "sign_in.html"))})
+// send basic account page html
+app.get("/account", (req, res) => 
+    {res.sendFile(path.join(__dirname, "public", "account.html"))})
 
-// send dashboard for each user page html (UNIQUE PAGE BY ACCOUNT)
-app.get("/dashboard-:key", async (req, res) => {
+// send account page for each user page html (UNIQUE PAGE BY ACCOUNT)
+app.get("/dashboard/:key", async (req, res) => {
     const key = req.params.key
     // handle finding user
     try {

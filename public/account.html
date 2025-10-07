@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<!-- saved from url=(0048)https://getbootstrap.com/docs/4.0/examples/grid/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="https://getbootstrap.com/docs/4.0/assets/img/favicons/favicon.ico">
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/grid/">
+    <!-- Bootstrap core CSS -->
+    <link href="./account_html_styles/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <!--link href="./account_html_styles/grid.css" rel="stylesheet"-->    
+    <link href="./styles/account.min.css" rel="stylesheet">
+  </head>
+
+  <body><!-- data-new-gr-c-s-check-loaded="14.1254.0" data-gr-ext-installed=""-->
+    <div class="container">
+      <div>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+          <a class="navbar-brand" target="_blank" rel="noopener noreferrer" href="https://www.google.com/search?q=tasker&oq=Tasker+&gs_lcrp=EgZjaHJvbWUqBggAEEUYOzIGCAAQRRg7Mg0IARAuGK8BGMcBGIAEMg0IAhAuGK8BGMcBGIAEMgcIAxAAGIAEMg0IBBAuGK8BGMcBGIAEMgoIBRAAGLEDGIAEMgcIBhAAGIAEMgcIBxAAGIAEMg0ICBAuGK8BGMcBGIAE0gEIMTMyOWowajeoAgCwAgA&sourceid=chrome&ie=UTF-8" ><img style="object-fit: contain; width: 4em; border-radius: 10px;" src="./assets/tasker.png"></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        
+          <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="/#home">Home <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/#about">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/#donors">Donors</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+
+      <div style="padding: 3em;">
+      </div> <!-- insert vertical padding to offset page from navbar -->
+      
+      <div style="display: flex; align-items: center; flex-direction: row; width: 80dvw; height: 120dvh;"> <!-- container for the rest of the page -->
+        <div style="margin: 1em; padding: 1em; background-color: aquamarine; width: 30dvw; height: 100%; border-radius: 30px;">
+          <div style="margin: 0.5em; padding: 0.3em 1em; background-color: blueviolet; flex-grow: 1; border-radius: 30px; justify-items:center">
+            <h2><strong>Your Pets</strong></h2>
+            <div id="pets-id"></div>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; margin: 0em; padding: 0em; height: 100%;">
+          <div style="margin: 1em; padding: 1em; background-color:aquamarine; width: 30dvw; height: 70%; border-radius: 30px;">
+            <div style="margin: 0.5em; padding: 0.3em 1em; background-color: blueviolet; flex-grow: 1; border-radius: 30px; justify-items:center">
+              <h2><strong>Hatchling</strong></h2>
+              <div id="egg-id"></div>
+            </div>
+          </div>
+          <div style="margin: 1em; padding: 1em; background-color:aquamarine; width: 30dvw; height: 30%; border-radius: 30px;">
+            <div style="margin: 0.5em; padding: 0.3em 1em; background-color: blueviolet; flex-grow: 1; border-radius: 30px; justify-items:center">
+              <h2><strong>Pet Store</strong></h2>
+              <div id="store-id"></div> 
+            </div>
+          </div>
+        </div>
+
+        <!-- form syntax: 
+
+        <form id="inputTask" class="form-signup" onsubmit="submit_task(event)" style="margin-bottom: 2em;">
+          <label for="inputPriority" class="sr-only">Priority Number</label>
+          <input type="number" id="inputPriority" class="form-control" placeholder="Priority Number" required="true">
+          <label for="inputText" class="sr-only">Write Task Here</label>
+          <input type="text" id="inputText" class="form-control" placeholder="Write Task Here" required="true">
+        
+          <button class="btn btn-lg btn-primary btn-block" style="margin-top: 1em">Add Task</button>
+        </form>
+        -->
+
+        <div id="task-box"></div>
+      </div> <!-- /container -->
+    </div>
+  </div>
+  
+  <script src="./js/client_dashboard.js"></script>
+  <script src="./js/client.js"></script>
+</body>
