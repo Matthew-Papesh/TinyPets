@@ -16,6 +16,31 @@
 
     <!-- Custom styles for this template -->
     <link href="./sign_in_files/signin.css" rel="stylesheet">
+    <style>
+    #scroll-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+      background: url('assets/bg_tile.png') repeat-x;
+      background-size: auto 100%;
+      animation: scrollBgAnim 20s linear infinite;
+    }
+    @keyframes scrollBgAnim {
+      from {
+        background-position: 0 0;
+      }
+      to {
+        background-position: -512px 0;
+      }
+    }
+    body {
+      background-color: #87ceeb;
+    }
+  </style>
   </head>
 
   <body class="text-center" data-new-gr-c-s-check-loaded="14.1254.0" data-gr-ext-installed="">
@@ -91,7 +116,7 @@
 
   hr {
     border: none;
-    border-top: 1px solid #e5e5e5;
+    border-top: 1px solid #95cfff;
     margin: 1em 0;
   }
 
