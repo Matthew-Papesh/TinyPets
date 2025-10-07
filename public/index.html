@@ -1,41 +1,94 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>TinyPets - Login</title>
 
-    <title>TinyPets - Welcome</title>
+    <!-- Styling -->
+    <link href="./main_files/style.css" rel="stylesheet">
+</head>
 
-    <!-- Bootstrap core CSS -->
-    <link href="./sign_in_files/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link href="./sign_in_files/signin.css" rel="stylesheet">
-  </head>
+    <!-- Navigation Bar -->
 
-  <body class="text-center">
-  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-      <a class="navbar-brand" target="_blank" rel="noopener noreferrer" href="https://www.google.com/search?q=tasker&oq=Tasker+&gs_lcrp=EgZjaHJvbWUqBggAEEUYOzIGCAAQRRg7Mg0IARAuGK8BGMcBGIAEMg0IAhAuGK8BGMcBGIAEMgcIAxAAGIAEMg0IBBAuGK8BGMcBGIAEMgoIBRAAGLEDGIAEMgcIBhAAGIAEMgcIBxAAGIAEMg0ICBAuGK8BGMcBGIAE0gEIMTMyOWowajeoAgCwAgA&sourceid=chrome&ie=UTF-8" ><img style="object-fit: contain; width: 4em; border-radius: 10px;" src="./assets/tasker.png"></a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="/#home">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/#about">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/#donors">Donors</a>
-          </li>
+<body>
+    <nav class="navbar">
+        <a class="navbar-brand" target="_blank" rel="noopener noreferrer" href="https://www.google.com/search?q=tasker&oq=Tasker+&gs_lcrp=EgZjaHJvbWUqBggAEEUYOzIGCAAQRRg7Mg0IARAuGK8BGMcBGIAEMg0IAhAuGK8BGMcBGIAEMgcIAxAAGIAEMg0IBBAuGK8BGMcBGIAEMgoIBRAAGLEDGIAEMgcIBhAAGIAEMgcIBxAAGIAEMg0ICBAuGK8BGMcBGIAE0gEIMTMyOWowajeoAgCwAgA&sourceid=chrome&ie=UTF-8">
+            <img src="./assets/tasker.png" alt="Tasker Logo">
+        </a>
+        
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/#home">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/#about">About</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/#donors">Donors</a>
+            </li>
         </ul>
-      </div>
     </nav>
-    
-    <form>
-    </form>
+
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+        <div class="pixel-corner pixel-corner-tl"></div>
+        <div class="pixel-corner pixel-corner-tr"></div>
+        <div class="pixel-corner pixel-corner-bl"></div>
+        <div class="pixel-corner pixel-corner-br"></div>
+        
+        <h1 class="title">TINYPETS LOGIN<span class="pixel-cursor"></span></h1>
+        
+
+        <!-- Sign In Form -->
+        <form id="signInForm" onsubmit="submit_sign_in(event)">
+            <div class="form-group">
+                <label for="inputEmail">EMAIL:</label>
+                <input type="email" id="inputEmail" class="input-box" placeholder="Enter your email" required autofocus>
+                <div class="error-message" id="email-error"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="inputPassword">PASSWORD:</label>
+                <input type="password" id="inputPassword" class="input-box" placeholder="Enter your password" required>
+                <div class="error-message" id="password-error"></div>
+            </div>
+            
+            <div id="signInMessage"></div>
+            
+            <button type="submit">LOGIN</button>
+        </form>
+
+        <!-- Sign Up Link -->
+        <div class="signup-link">
+            <p>Don't have an account? <a href="/sign_up.html">Register here</a></p>
+        </div>
+    </div>
+    </div>
 
     <script src="js/client.js"></script>
+    
 
-  </body></html>
+<!-- Decorative Pixels -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.querySelector('.container');
+            for (let i = 0; i < 8; i++) {
+                const pixel = document.createElement('div');
+                pixel.style.position = 'absolute';
+                pixel.style.width = '8px';
+                pixel.style.height = '8px';
+                pixel.style.left = Math.random() * 100 + '%';
+                pixel.style.top = Math.random() * 100 + '%';
+                pixel.style.backgroundColor = ['#29adff', '#ff004d', '#f8b700'][Math.floor(Math.random() * 3)];
+                pixel.style.opacity = '0.3';
+                container.appendChild(pixel);
+            }
+        });
+    </script>
+
+</body>
+</html>
