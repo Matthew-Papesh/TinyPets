@@ -79,4 +79,25 @@ const submit_sign_in = async function(event) {
     const key = user_credentials.key
     window.location.href = `/dashboard-${key}`
   }
+
+// scrolling background animation
+  (function() {
+  const bg = document.getElementById('scroll-bg');
+  const tileWidth = 512;
+  let offset = 0;
+  const speed = 30;  // px per second
+
+  function step(ts) {
+    if (!step.last) step.last = ts;
+    const delta = (ts - step.last) / 1000;
+    step.last = ts;
+
+    offset = (offset + speed * delta) % tileWidth;
+    bg.style.backgroundPosition = `-${offset}px 0`;
+
+    window.requestAnimationFrame(step);
+  }
+  window.requestAnimationFrame(step);
+})();
+
 }
