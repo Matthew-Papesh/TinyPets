@@ -5,7 +5,7 @@ const app = express()
 
 // establish mongodb database (db) connection
 const uri = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/mydatabase"
-const PORT = 3000
+const PORT = 3300
 
 // handle all static files in the /public folder
 app.use(express.static(path.join(__dirname, "public")))
@@ -33,15 +33,17 @@ const user_schema = new mongoose.Schema({
 const User = mongoose.model("User", user_schema)
 
 // send home page html
-app.get("/", (req, res) => 
-    {res.sendFile(path.join(__dirname, "public", "index.html"))})
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "index.html"))})
 // send signup page html
-app.get("/signup", (req, res) => 
-    {res.sendFile(path.join(__dirname, "public", "sign_up.html"))})
+app.get("/signup", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "sign_up.html"))})
 // send signin page html
 app.get("/signin", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "sign_in.html"))
-})
+    res.sendFile(path.join(__dirname, "public", "sign_in.html"))})
+// send dashboard page html
+app.get("/dashboard", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "dashboard.html"))})
 
 // send dashboard for each user page html (UNIQUE PAGE BY ACCOUNT)
 app.get("/dashboard-:key", async (req, res) => {
@@ -66,6 +68,7 @@ app.get("/dashboard-:key", async (req, res) => {
     }
     res.sendFile(path.join(__dirname, "public", "dashboard.html"))
 })
+
 // send user account info
 app.get("/api/dashboard/:key/users", async (req, res) => {
     const key = req.params.key
@@ -85,6 +88,7 @@ app.get("/api/dashboard/:key/users", async (req, res) => {
         res.status(500).send(`Server error: ${err.message}`)
     }
 })
+
 // send user account tasks
 app.get("/api/dashboard/:key/tasks", async (req, res) => {
     const key = req.params.key

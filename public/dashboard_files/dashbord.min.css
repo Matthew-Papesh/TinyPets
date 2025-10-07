@@ -1,0 +1,7 @@
+.panel {
+    display: flex;
+    padding: 1em;
+    margin: 1em;
+    border-radius: 100px;
+}
+
