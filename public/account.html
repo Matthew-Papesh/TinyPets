@@ -11,12 +11,12 @@
     <link href="./account_html_styles/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <!--link href="./account_html_styles/grid.css" rel="stylesheet"-->    
-    <link href="./styles/account.min.css" rel="stylesheet">
+    <link href="./styles/account.min.css?v=2" rel="stylesheet">
   </head>
 
-  <body><!-- data-new-gr-c-s-check-loaded="14.1254.0" data-gr-ext-installed=""-->
-    <div class="container">
-      <div>
+  <body class="retro"><!-- data-new-gr-c-s-check-loaded="14.1254.0" data-gr-ext-installed=""-->
+    <div class="container" style="display: flex; justify-content: center; align-items: center; min-height: 100vh; flex-direction: column;">
+      
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
           <a class="navbar-brand" target="_blank" rel="noopener noreferrer" href="https://www.google.com/search?q=tasker&oq=Tasker+&gs_lcrp=EgZjaHJvbWUqBggAEEUYOzIGCAAQRRg7Mg0IARAuGK8BGMcBGIAEMg0IAhAuGK8BGMcBGIAEMgcIAxAAGIAEMg0IBBAuGK8BGMcBGIAEMgoIBRAAGLEDGIAEMgcIBhAAGIAEMgcIBxAAGIAEMg0ICBAuGK8BGMcBGIAE0gEIMTMyOWowajeoAgCwAgA&sourceid=chrome&ie=UTF-8" ><img style="object-fit: contain; width: 4em; border-radius: 10px;" src="./assets/tasker.png"></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,27 +37,27 @@
             </ul>
           </div>
         </nav>
-      </div>
+      
 
       <div style="padding: 3em;">
       </div> <!-- insert vertical padding to offset page from navbar -->
       
-      <div style="display: flex; align-items: center; flex-direction: row; width: 80dvw; height: 120dvh;"> <!-- container for the rest of the page -->
-        <div style="margin: 1em; padding: 1em; background-color: aquamarine; width: 30dvw; height: 100%; border-radius: 30px;">
-          <div style="margin: 0.5em; padding: 0.3em 1em; background-color: blueviolet; flex-grow: 1; border-radius: 30px; justify-items:center">
+      <div style="display: flex; flex-direction: row; width: 80dvw; height: 120dvh;"> <!-- container for the rest of the page -->
+        <div style="margin: 1em; padding: 1em; background-color: var(--sky0); width: 30dvw; height: 100%; border-radius: 30px;">
+          <div style="margin: 0.5em; padding: 0.3em 1em; background-color: var(--sky1); flex-grow: 1; border-radius: 30px; justify-items:center">
             <h2><strong>Your Pets</strong></h2>
             <div id="pets-id"></div>
           </div>
         </div>
         <div style="display: flex; flex-direction: column; margin: 0em; padding: 0em; height: 100%;">
-          <div style="margin: 1em; padding: 1em; background-color:aquamarine; width: 30dvw; height: 70%; border-radius: 30px;">
-            <div style="margin: 0.5em; padding: 0.3em 1em; background-color: blueviolet; flex-grow: 1; border-radius: 30px; justify-items:center">
+          <div style="margin: 1em; padding: 1em; background-color: var(--sky0); width: 30dvw; height: 70%; border-radius: 30px;">
+            <div style="margin: 0.5em; padding: 0.3em 1em; background-color: var(--sky1); flex-grow: 1; border-radius: 30px; justify-items:center">
               <h2><strong>Hatchling</strong></h2>
               <div id="egg-id"></div>
             </div>
           </div>
-          <div style="margin: 1em; padding: 1em; background-color:aquamarine; width: 30dvw; height: 30%; border-radius: 30px;">
-            <div style="margin: 0.5em; padding: 0.3em 1em; background-color: blueviolet; flex-grow: 1; border-radius: 30px; justify-items:center">
+          <div style="margin: 1em; padding: 1em; background-color: var(--sky0); width: 30dvw; height: 30%; border-radius: 30px;">
+            <div style="margin: 0.5em; padding: 0.3em 1em; background-color: var(--sky1); flex-grow: 1; border-radius: 30px; justify-items:center">
               <h2><strong>Pet Store</strong></h2>
               <div id="store-id"></div> 
             </div>
@@ -75,8 +75,6 @@
           <button class="btn btn-lg btn-primary btn-block" style="margin-top: 1em">Add Task</button>
         </form>
         -->
-
-        <div id="task-box"></div>
       </div> <!-- /container -->
     </div>
   </div>

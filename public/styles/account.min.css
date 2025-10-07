@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 :root {
     /* template colors by element and variation */
     --fire0: #841252;
@@ -32,8 +34,6 @@
     margin: 1em;
     padding: 0.5em;
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 * {
   margin: 0;
