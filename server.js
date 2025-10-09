@@ -5,15 +5,11 @@ const app = express()
 
 // establish mongodb database (db) connection
 const uri = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/mydatabase"
-const PORT = 3300
+const PORT = 3333
 
 // handle all static files in the /public folder
 app.use(express.static(path.join(__dirname, "public")))
 app.use(express.json())
-app.use('/dashboard', express.static(path.join(__dirname, 'public', 'dashboard_files')))
-app.use('/assets', express.static(path.join(__dirname, 'public', 'assets')))
-app.use('/js', express.static(path.join(__dirname, 'public', 'js')))
-
 // create connection to db
 mongoose.connect(uri)
     .then(() => console.log("Mongoose connected to MongoDB database"))
@@ -70,6 +66,7 @@ app.get("/dashboard/:key", async (req, res) => {
         }
     }
 
+    console.log(key)
     res.sendFile(path.join(__dirname, "public", "dashboard.html"))
 })
 // send user account info
