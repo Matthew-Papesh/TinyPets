@@ -7,7 +7,7 @@ let pets = []
 // handle parsing for user key to talk to server and server database for 
 // loading user dashboard page.
 document.addEventListener("DOMContentLoaded", async () => {
-    const match = window.location.pathname.match(/\/dashboard-(.+)/)
+    const match = window.location.pathname.match(/\/dashboard\/(.+)/)
     // check url validity
     if(!match) {
         return console.error("Invalid dashboard URL")
@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     key = match[1]
     // try to get user info and user task info by api
     try {
-        const response = await fetch(`./api/dashboard/${key}/users`)
+        const response = await fetch(`/api/dashboard/${key}/users`)
         if(!response) {
             throw new Error("Failed to fetch user")
         }
@@ -28,8 +28,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     // try to get user data info by api
     try {
-        const res_eggs = await fetch(`./api/dashboard/${key}/eggs`)
-        const res_pets = await fetch(`./api/dashboard/${key}/pets`)
+        const res_eggs = await fetch(`/api/dashboard/${key}/eggs`)
+        const res_pets = await fetch(`/api/dashboard/${key}/pets`)
         eggs = await res_eggs.json()
         pets = await res_pets.json()
         if(!res_eggs || !res_pets) {
@@ -39,9 +39,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.error(err.message)
     }
 
-    // use info to setup page
-    const username_div = document.getElementById("username")
-    username_div.innerHTML = `<h1>Hello ${username}, </h1>`
     
     // fetch and display credits
     await loadCredits()
@@ -143,7 +140,7 @@ play_audio()
 // function to load and display user credits
 const loadCredits = async function() {
     try {
-        const response = await fetch(`./api/dashboard/${key}/credits`)
+        const response = await fetch(`/api/dashboard/${key}/credits`)
         if (!response.ok) {
             throw new Error("Failed to fetch credits")
         }
@@ -178,7 +175,7 @@ const refreshCredits = async function() {
 // test function to add credits (you can remove this later)
 const addTestCredits = async function() {
     try {
-        const response = await fetch(`./api/dashboard/${key}/credits`, {
+        const response = await fetch(`/api/dashboard/${key}/credits`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ amount: 10 })
