@@ -10,6 +10,9 @@ const PORT = 3300
 // handle all static files in the /public folder
 app.use(express.static(path.join(__dirname, "public")))
 app.use(express.json())
+app.use('/dashboard', express.static(path.join(__dirname, 'public', 'dashboard_files')))
+app.use('/assets', express.static(path.join(__dirname, 'public', 'assets')))
+app.use('/js', express.static(path.join(__dirname, 'public', 'js')))
 
 // create connection to db
 mongoose.connect(uri)
@@ -24,51 +27,51 @@ const user_schema = new mongoose.Schema({
     signed_in: { type: Boolean, required: true },
     first_name: String,
     last_name: String, 
-    tasks: [{
-        priority: Number,
-        text: String
-    }]
+    credits: Number,
+    eggs: [{img_src: String, id: Number}],
+    pets: [{img_src: String, id: Number}]
 }, { timestamps: true })
 
 const User = mongoose.model("User", user_schema)
 
 // send home page html
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "index.html"))})
+app.get("/", (req, res) => 
+    {res.sendFile(path.join(__dirname, "public", "index.html"))})
 // send signup page html
-app.get("/signup", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "sign_up.html"))})
+app.get("/signup", (req, res) => 
+    {res.sendFile(path.join(__dirname, "public", "sign_up.html"))})
 // send signin page html
 app.get("/signin", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "sign_in.html"))})
-// send dashboard page html
 app.get("/dashboard", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "dashboard.html"))})
 
-// send dashboard for each user page html (UNIQUE PAGE BY ACCOUNT)
-app.get("/dashboard-:key", async (req, res) => {
+// send account page for each user page html (UNIQUE PAGE BY ACCOUNT)
+app.get("/dashboard/:key", async (req, res) => {
     const key = req.params.key
-    // handle finding user
-    try {
-        // find user by key
-        const user = await User.findOne({ key })
-        // handle if user not found
-        if(!user) {
-            return res.status(404).send("User not found")
-        }
+    if(key !== "0") {
+        // handle finding user
+        try {
+            // find user by key
+            const user = await User.findOne({ key })
+            // handle if user not found
+            if(!user) {
+                return res.status(404).send("User not found")
+            }
 
-        // only send html if signed in from sign in page
-        if(user.signed_in) { 
-            res.sendFile(path.join(__dirname, "public", "dashboard.html"))
-        } else {
-            res.status(401).send("No authorized")
+            // only send html if signed in from sign in page
+            if(user.signed_in) { 
+                res.sendFile(path.join(__dirname, "public", "dashboard.html"))
+            } else {
+                res.status(401).send("Not authorized")
+            }
+        } catch(err) {
+            res.status(500).send(`Server error: ${err.message}`)
         }
-    } catch(err) {
-        res.status(500).send(`Server error: ${err.message}`)
     }
+
     res.sendFile(path.join(__dirname, "public", "dashboard.html"))
 })
-
 // send user account info
 app.get("/api/dashboard/:key/users", async (req, res) => {
     const key = req.params.key
@@ -88,9 +91,8 @@ app.get("/api/dashboard/:key/users", async (req, res) => {
         res.status(500).send(`Server error: ${err.message}`)
     }
 })
-
-// send user account tasks
-app.get("/api/dashboard/:key/tasks", async (req, res) => {
+// send user account eggs owned
+app.get("/api/dashboard/:key/eggs", async (req, res) => {
     const key = req.params.key
     // handle finding user
     try {
@@ -101,24 +103,42 @@ app.get("/api/dashboard/:key/tasks", async (req, res) => {
             return res.status(404).send("User not found")
         }
 
-        res.json(user.tasks)
+        res.json(user.eggs)
     } catch(err) {
         res.status(500).send(`Server error: ${err.message}`)
     }
 })
-// receive request to remove task from user by user key
-app.post("/rmtasks", async (req, res) => {
+// send user account pets owned
+app.get("/api/dashboard/:key/pets", async (req, res) => {
+    const key = req.params.key
+    // handle finding user
+    try {
+        // find user by key
+        const user = await User.findOne(({ key }))
+        if(!user) {
+            return res.status(404).send("User not found")
+        }
+
+        res.json(user.pets)
+    } catch(err) {
+        res.status(500).send(`Server error: ${err.message}`)
+    }
+})
+
+// receive request to remove egg from user account
+app.post("/rmegg", async (req, res) => {
     // get args from request 
     const key = req.body.key
-    const priority = req.body.priority
-    const text = req.body.text
+    const src_img = req.body.src_img
+    const id = req.body.id
+    
 
-    // try to update user account task list
+    // try to update user account 
     try {
-        // find user by key and pull task from tasks list
+        // find user by key and pull egg 
         const result = await User.updateOne(
             { key },
-            { $pull: { tasks: { priority, text } } }
+            { $pull: { eggs: { src_img, id } } }
         )
         // send error if this fails
         if (result.matchedCount === 0) {
@@ -130,19 +150,69 @@ app.post("/rmtasks", async (req, res) => {
         res.status(500).send(`Server error: ${err.message}`)
     }
 })
-// add request to add task to user tasks from user key
-app.post("/pushtasks", async (req, res) => {
+// receive request to remove owned pet from user account
+app.post("/rmpet", async (req, res) => {
     // get args from request 
     const key = req.body.key
-    const priority = req.body.priority
-    const text = req.body.text
+    const src_img = req.body.src_img
+    const id = req.body.id
+    
+
+    // try to update user account 
+    try {
+        // find user by key and pull owned pet 
+        const result = await User.updateOne(
+            { key },
+            { $pull: { pets: { src_img, id } } }
+        )
+        // send error if this fails
+        if (result.matchedCount === 0) {
+            return res.status(404).send("User not found")
+        }
+        // respond to client
+        res.status(200).send("User updated successfully")
+    } catch(err) {
+        res.status(500).send(`Server error: ${err.message}`)
+    }
+})
+
+// add request to add an egg to user account from user key
+app.post("/pushegg", async (req, res) => {
+    // get args from request 
+    const key = req.body.key
+    const src_img = req.body.src_img
+    const id = req.body.id
 
     // try to update user account task list
     try {
-        // find user by key and push task to tasks list
+        // find user by key and push egg to account
         const result = await User.updateOne(
             { key },
-            { $push: { tasks: { priority, text } } }
+            { $push: { eggs: { src_img, id } } }
+        )
+        // send error if this fails
+        if (result.matchedCount === 0) {
+            return res.status(404).send("User not found")
+        }
+        // respond to client
+        res.status(200).send("User updated successfully")
+    } catch(err) {
+        res.status(500).send(`Server error: ${err.message}`)
+    }
+})
+// add request to add a pet to user account from user key
+app.post("/pushpet", async (req, res) => {
+    // get args from request 
+    const key = req.body.key
+    const src_img = req.body.src_img
+    const id = req.body.id
+
+    // try to update user account task list
+    try {
+        // find user by key and push pet to account
+        const result = await User.updateOne(
+            { key },
+            { $push: { pets: { src_img, id } } }
         )
         // send error if this fails
         if (result.matchedCount === 0) {
@@ -184,7 +254,7 @@ app.post("/signup", async (req, res) => {
         res.status(400).send(`Failed to register; The email may already have an account.`)
     }
 })
-
+// receive sign in info; handle account signin
 app.post("/signin", async (req, res) => {
     // get signin info 
     const email = req.body.email

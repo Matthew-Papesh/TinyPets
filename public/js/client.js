@@ -77,7 +77,7 @@ const submit_sign_in = async function(event) {
   else if(response.ok) {
     const user_credentials = await response.json()
     const key = user_credentials.key
-    window.location.href = `/dashboard-${key}`
+    window.location.href = `/dashboard/${key}`
   }
 
 // scrolling background animation
