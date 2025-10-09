@@ -42,6 +42,21 @@ document.addEventListener("DOMContentLoaded", async () => {
     // use info to setup page
     const username_div = document.getElementById("username")
     username_div.innerHTML = `<h1>Hello ${username}, </h1>`
+    
+    // fetch and display credits
+    await loadCredits()
+    
+    // add test button functionality
+    const testCreditsBtn = document.getElementById("test-credits-btn")
+    if (testCreditsBtn) {
+        testCreditsBtn.addEventListener("click", addTestCredits)
+    }
+    
+    // add logout button functionality
+    const logoutBtn = document.getElementById("logout-btn")
+    if (logoutBtn) {
+        logoutBtn.addEventListener("click", logout)
+    }
 })
 
 // handle submitting task to server database
@@ -75,21 +90,35 @@ const submit_task = async function(event) {
 
 // handles redirecting user to home page and flagging log out to server
 const logout = async function(event) {
-    // parse json
-    json = {
-        key: key,
-    }
-    // parse json to body and push to server
-    body = JSON.stringify(json)
-    // request POST to server
-    const response = await fetch( "/logout", {
-        method:"POST",
-        headers: { "Content-Type": "application/json" },
-        body 
-    })
+    try {
+        // parse json
+        const json = {
+            key: key,
+        }
+        // parse json to body and push to server
+        const body = JSON.stringify(json)
+        // request POST to server
+        const response = await fetch("/logout", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body 
+        })
 
-    // handle response
-    console.log(response)
+        // handle response
+        if (response.ok) {
+            console.log("Successfully logged out")
+            // redirect to login page
+            window.location.href = "/"
+        } else {
+            console.error("Logout failed:", response.statusText)
+            // Still redirect to login page even if server request fails
+            window.location.href = "/"
+        }
+    } catch(err) {
+        console.error("Error during logout:", err.message)
+        // Still redirect to login page even if there's an error
+        window.location.href = "/"
+    }
 }
 
 const play_audio = async function(event) {
@@ -110,3 +139,61 @@ const play_audio = async function(event) {
 }
 
 play_audio()
+
+// function to load and display user credits
+const loadCredits = async function() {
+    try {
+        const response = await fetch(`./api/dashboard/${key}/credits`)
+        if (!response.ok) {
+            throw new Error("Failed to fetch credits")
+        }
+        
+        const data = await response.json()
+        const creditsAmount = document.getElementById("credits-amount")
+        if (creditsAmount) {
+            creditsAmount.textContent = data.credits || 0
+        }
+    } catch(err) {
+        console.error("Error loading credits:", err.message)
+        const creditsAmount = document.getElementById("credits-amount")
+        if (creditsAmount) {
+            creditsAmount.textContent = "0"
+        }
+    }
+}
+
+// function to update credits display (useful for when credits change)
+const updateCreditsDisplay = function(newAmount) {
+    const creditsAmount = document.getElementById("credits-amount")
+    if (creditsAmount) {
+        creditsAmount.textContent = newAmount
+    }
+}
+
+// function to refresh credits from server (useful after purchases/earnings)
+const refreshCredits = async function() {
+    await loadCredits()
+}
+
+// test function to add credits (you can remove this later)
+const addTestCredits = async function() {
+    try {
+        const response = await fetch(`./api/dashboard/${key}/credits`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ amount: 10 })
+        })
+        
+        if (!response.ok) {
+            throw new Error("Failed to add credits")
+        }
+        
+        const data = await response.json()
+        updateCreditsDisplay(data.credits)
+        
+        // Optional: Show a brief notification
+        console.log("Added 10 credits! New total:", data.credits)
+    } catch(err) {
+        console.error("Error adding credits:", err.message)
+    }
+}
