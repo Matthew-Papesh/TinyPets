@@ -24,7 +24,7 @@ const user_schema = new mongoose.Schema({
     first_name: String,
     last_name: String, 
     credits: Number,
-    eggs: [{img_src: String, id: Number}],
+    egg: {img_src: String, id: Number},
     pets: [{img_src: String, id: Number}]
 }, { timestamps: true })
 
@@ -89,7 +89,7 @@ app.get("/api/dashboard/:key/users", async (req, res) => {
     }
 })
 // send user account eggs owned
-app.get("/api/dashboard/:key/eggs", async (req, res) => {
+app.get("/api/dashboard/:key/egg", async (req, res) => {
     const key = req.params.key
     // handle finding user
     try {
@@ -100,7 +100,7 @@ app.get("/api/dashboard/:key/eggs", async (req, res) => {
             return res.status(404).send("User not found")
         }
 
-        res.json(user.eggs)
+        res.json(user.egg)
     } catch(err) {
         res.status(500).send(`Server error: ${err.message}`)
     }
