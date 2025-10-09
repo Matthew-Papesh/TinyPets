@@ -4,7 +4,6 @@ let key = ""
 let eggs = []
 let pets = []
 
-// handle parsing for user key to talk to server and server database for 
 // loading user dashboard page.
 document.addEventListener("DOMContentLoaded", async () => {
     const match = window.location.pathname.match(/\/dashboard\/(.+)/)
