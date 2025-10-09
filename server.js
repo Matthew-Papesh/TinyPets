@@ -237,8 +237,9 @@ app.post("/signup", async (req, res) => {
     let key = "" // compute key to dashboard url
     for(let i=0; i < email.length; i++) {
         let character =email[i] // "encryption" key
-        let value = parseInt(character.charCodeAt(0) / (i+1)).toString()
-        key = key + value
+        let values = parseInt(character.charCodeAt(0) / (i+1)).toString()
+        let digit = values.at(parseInt(values.length/2))
+        key = key + digit
     }
     
     try {
