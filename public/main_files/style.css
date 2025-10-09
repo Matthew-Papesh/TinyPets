@@ -1,4 +1,4 @@
-/* 8-bit  Styling */
+/* TinyPets 8-bit Styling */
 
 @font-face {
     font-family: 'VT323';
@@ -25,17 +25,17 @@ body {
     min-height: 100vh;
     letter-spacing: 1px;
     background-image: url('../assets/pixel-trees-background.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+    background-size: 200% 100%; 
+    background-position: 0% center;
+    background-repeat: repeat-x;
+    animation: simpleScroll 30s linear infinite;
 }
 
 /* Navigation Bar */
 .navbar {
     width: 100%;
     background-color: rgba(49, 54, 56, 0.9);
-    border-bottom: 3px solid #f8b700;
+    border-bottom: 3px solid #089113;
     padding: 10px 20px;
     position: fixed;
     top: 0;
@@ -71,7 +71,7 @@ body {
 }
 
 .nav-link:hover {
-    color: #f8b700;
+    color: #089113;
 }
 
 /* Main Content Area */
@@ -87,12 +87,13 @@ body {
 .container {
     width: 100%;
     max-width: 500px;
-    background-color: #313638;
-    border: 4px solid #f8b700;
-    box-shadow: 0 0 0 4px #313638, 0 0 0 8px #f8b700;
+    background-color: rgba(49, 54, 56, 0.8); 
+    border: 4px solid #089113; 
+    box-shadow: 0 0 0 4px rgba(49, 54, 56, 0.8), 0 0 0 8px #00ff41; 
     padding: 30px;
     position: relative;
     overflow: hidden;
+    backdrop-filter: blur(5px); 
 }
 
 /* Title */
@@ -100,8 +101,8 @@ body {
     font-size: 32px;
     text-align: center;
     margin-bottom: 30px;
-    color: #f8b700;
-    text-shadow: 3px 3px 0 #ff004d;
+    color: #089113;
+    text-shadow: 3px 3px 0 #1934d1;
     animation: pulse 2s infinite;
 }
 
@@ -115,14 +116,14 @@ body {
     display: block;
     font-size: 18px;
     margin-bottom: 8px;
-    color: #29adff;
+    color: #4da6ff;
 }
 
 .input-box {
     width: 100%;
     padding: 12px;
     background-color: #222034;
-    border: 3px solid #29adff;
+    border: 3px solid #4da6ff; 
     color: #f4f4f4;
     font-family: 'VT323', monospace;
     font-size: 18px;
@@ -131,8 +132,8 @@ body {
 }
 
 .input-box:focus {
-    border-color: #f8b700;
-    box-shadow: 0 0 8px #f8b700;
+    border-color: #089113; 
+    box-shadow: 0 0 8px #089113; 
 }
 
 .error-message {
@@ -153,8 +154,8 @@ button {
     display: block;
     width: 100%;
     padding: 12px;
-    background-color: #29adff;
-    border: 3px solid #29adff;
+    background-color: #4da6ff;
+    border: 3px solid #4da6ff; 
     color: #222034;
     font-family: 'VT323', monospace;
     font-size: 20px;
@@ -164,8 +165,8 @@ button {
 }
 
 button:hover {
-    background-color: #f8b700;
-    border-color: #f8b700;
+    background-color: #089113; 
+    border-color: #089113; 
 }
 
 button:active {
@@ -186,7 +187,7 @@ button:active {
 }
 
 .signup-link a:hover {
-    color: #f8b700;
+    color: #089113;
 }
 
 /* Pixel Decorations */
@@ -194,7 +195,7 @@ button:active {
     position: absolute;
     width: 10px;
     height: 10px;
-    background-color: #f8b700;
+    background-color: #089113;
 }
 
 .pixel-corner-tl { top: 0; left: 0; }
@@ -206,13 +207,13 @@ button:active {
     display: inline-block;
     width: 10px;
     height: 20px;
-    background-color: #f8b700;
+    background-color: #089113;
     animation: blink 1s infinite;
     vertical-align: middle;
     margin-left: 5px;
 }
 
-/* Animations */
+/* Animations  */
 @keyframes pulse {
     0% { transform: scale(1); }
     50% { transform: scale(1.05); }
@@ -228,6 +229,34 @@ button:active {
 @keyframes blink {
     0%, 49% { opacity: 1; }
     50%, 100% { opacity: 0; }
+}
+
+/* Background Animations */
+@keyframes simpleScroll {
+    0% { 
+        background-position: 0% center; 
+    }
+    100% { 
+        background-position: 200% center; 
+    }
+}
+
+@keyframes sineWave {
+    0% { 
+        background-position: 0% 0px; 
+    }
+    25% { 
+        background-position: 25% -10px; 
+    }
+    50% { 
+        background-position: 50% 0px; 
+    }
+    75% { 
+        background-position: 75% 10px; 
+    }
+    100% { 
+        background-position: 100% 0px; 
+    }
 }
 
 /* Responsive Design */
