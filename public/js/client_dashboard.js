@@ -168,3 +168,22 @@ const logout = async function(event) {
     // handle response
     console.log(response)
 }
+
+const play_audio = async function(event) {
+    const panel_select = new Audio("../assets/menu-hover.mp3")
+    panel_select.loop = false
+    panel_select.playbackRate = 1.0
+    panel_select.volume = 1.0
+    const music = new Audio("../assets/popcorn-and-videogames-audio.mp3")
+    music.loop = true
+    music.playbackRate = 0.95
+    music.volume = 0.1
+    music.autoplay = true
+
+    document.addEventListener('click', () => {music.play()})
+    document.getElementsByClassName("panel-button-petstore").item(0).addEventListener('mouseenter', () => {panel_select.play()})
+    document.getElementsByClassName("panel-button-hatching").item(0).addEventListener('mouseenter', () => {panel_select.play()})
+    document.getElementsByClassName("panel-button-mypets").item(0).addEventListener('mouseenter', () => {panel_select.play()})
+}
+
+play_audio()
