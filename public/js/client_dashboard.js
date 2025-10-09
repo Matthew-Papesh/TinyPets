@@ -1,7 +1,7 @@
 // global user data
 let username = "no-name"
 let key = ""
-let eggs = []
+let egg = {}
 let pets = []
 
 // handle parsing for user key to talk to server and server database for 
@@ -42,36 +42,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     // use info to setup page
     const username_div = document.getElementById("username")
     username_div.innerHTML = `<h1>Hello ${username}, </h1>`
+    const my_pets_link = document.getElementById("mypets-link-id")
+    my_pets_link.href = `/mypets/${key}`
 })
-
-// handle submitting task to server database
-const submit_task = async function(event) {
-  // stop form submission from trying to load
-  // a new .html page for displaying results...
-  // this was the original browser behavior and still
-  // remains to this day
-  event.preventDefault()
-    // get inputted task info
-    const task_priority = document.querySelector("#inputPriority").value
-    const task_text = document.querySelector("#inputText").value
-    // parse to json
-    json = { 
-        key: key,
-        priority: task_priority, 
-        text: task_text
-    }  
-    // parse json to body and push to server
-    body = JSON.stringify(json)
-    // request POST to server
-    const response = await fetch( "/pushtasks", {
-        method:"POST",
-        headers: { "Content-Type": "application/json" },
-        body 
-    })
-
-    // add task visibly to task box after pushing to server
-    create_task_row(task_priority, task_text, false)
-}
 
 // handles redirecting user to home page and flagging log out to server
 const logout = async function(event) {

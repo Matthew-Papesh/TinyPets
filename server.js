@@ -41,6 +41,8 @@ app.get("/signin", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "sign_in.html"))})
 app.get("/dashboard", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "dashboard.html"))})
+app.get("/mypets", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "mypets.html"))})
 
 // send account page for each user page html (UNIQUE PAGE BY ACCOUNT)
 app.get("/dashboard/:key", async (req, res) => {
@@ -68,6 +70,33 @@ app.get("/dashboard/:key", async (req, res) => {
 
     console.log(key)
     res.sendFile(path.join(__dirname, "public", "dashboard.html"))
+})
+// send account page for each user page html (UNIQUE PAGE BY ACCOUNT)
+app.get("/mypets/:key", async (req, res) => {
+    const key = req.params.key
+    if(key !== "0") {
+        // handle finding user
+        try {
+            // find user by key
+            const user = await User.findOne({ key })
+            // handle if user not found
+            if(!user) {
+                return res.status(404).send("User not found")
+            }
+
+            // only send html if signed in from sign in page
+            if(user.signed_in) { 
+                res.sendFile(path.join(__dirname, "public", "mypets.html"))
+            } else {
+                res.status(401).send("Not authorized")
+            }
+        } catch(err) {
+            res.status(500).send(`Server error: ${err.message}`)
+        }
+    }
+
+    console.log(key)
+    res.sendFile(path.join(__dirname, "public", "mypets.html"))
 })
 // send user account info
 app.get("/api/dashboard/:key/users", async (req, res) => {
