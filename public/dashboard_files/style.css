@@ -25,6 +25,50 @@ body {
     background-attachment: fixed;
 }
 
+
+/* Navigation Bar */
+.navbar {
+    width: 100%;
+    background-color: rgba(49, 54, 56, 0.9);
+    border-bottom: 3px solid #089113;
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-brand img {
+    object-fit: contain;
+    width: 4em;
+    border-radius: 10px;
+}
+
+.navbar-nav {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item {
+    margin-left: 20px;
+}
+
+.nav-link {
+    color: #29adff;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: #089113;
+}
+
 @keyframes pulse {
   0%   { transform: scale(1); }
   50%  { transform: scale(1.02); }

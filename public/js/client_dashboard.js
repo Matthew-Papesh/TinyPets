@@ -42,9 +42,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     // use info to setup page
     const username_div = document.getElementById("username")
     username_div.innerHTML = `<h1>Hello ${username}, </h1>`
-    const my_pets_link = document.getElementById("mypets-link-id")
-    my_pets_link.href = `/mypets/${key}`
 })
+
+// handles redirecting user to dashboard 
+const redirect_dashboard = async function(event) {
+    
+}
+
+// handles redirecting user to their mypets page 
+const redirect_mypets = async function(event) {
+    window.location.href = `/mypets/${key}`
+}
 
 // handles redirecting user to home page and flagging log out to server
 const logout = async function(event) {
