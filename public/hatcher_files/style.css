@@ -1,0 +1,79 @@
+
+.eggs-container {
+	width: 300px;
+	height: 400px;
+	border: 4px solid #fff;
+	border-radius: 15px;
+	background-color: rgba(247, 184, 67, 0.2);
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.progress-bar {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 10px;
+	background-color: rgba(255, 255, 255, 0.5);
+}
+body {
+    font-family: 'VT323', monospace;
+    background-color: #87CEEB; 
+    color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    letter-spacing: 1px;
+    background-image: url('../assets/bg_tile.png');
+    background-size: 100% 100%; 
+    background-position: 0% center;
+}
+
+/* Egg shake animation */
+@keyframes shake {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(3px, 2px) rotate(2deg); }
+  50% { transform: translate(-3px, -2px) rotate(-2deg); }
+  75% { transform: translate(2px, 3px) rotate(1deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+#eggImg {
+  width: 200px;
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+
+.shake {
+  animation: shake 0.4s ease;
+}
+
+/* Progress bar styling */
+#progress-container {
+  margin-top: 20px;
+  width: 300px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  overflow: hidden;
+  text-align: center;
+}
+
+#progressBar {
+  height: 20px;
+  width: 0%;
+  background-color: #f7b843;
+  transition: width 0.3s ease;
+}
+
+#progressText {
+  margin-top: 8px;
+  font-size: 1.2em;
+  color: #fff;
+}
+
+

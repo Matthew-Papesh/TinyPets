@@ -1,104 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>TinyPets - My Pets</title>
-    
-    <!-- Bootstrap core CSS -->
-    <link href="../dashboard_files/bootstrap.min.css" rel="stylesheet">
-    <!-- 8-bit  Styling -->
-    <link href="../main_files/style.css" rel="stylesheet">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>TinyPets - My Pets</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="../dashboard_files/bootstrap.min.css" rel="stylesheet">
+	<!-- 8-bit  Styling -->
+	<link href="../hatcher_files/style.css" rel="stylesheet">
+	
 </head>
 
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a 
-            class="navbar-brand" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            href="https://www.google.com/search?q=tasker&oq=Tasker+&gs_lcrp=EgZjaHJvbWUqBggAEEUYOzIGCAAQRRg7Mg0IARAuGK8BGMcBGIAEMg0IAhAuGK8BGMcBGIAEMgcIAxAAGIAEMg0IBBAuGK8BGMcBGIAEMgoIBRAAGLEDGIAEMgcIBhAAGIAEMgcIBxAAGIAEMg0ICBAuGK8BGMcBGIAE0gEIMTMyOWowajeoAgCwAgA&sourceid=chrome&ie=UTF-8"
-        >
-            <img src="../assets/tasker.png" alt="MyPets Logo">
-        </a>
-        <button 
-            class="navbar-toggler" 
-            type="button" 
-            data-toggle="collapse" 
-            data-target="#navbarsExampleDefault" 
-            aria-controls="navbarsExampleDefault" 
-            aria-expanded="false" 
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <span class="nav-link" id="credits-display" style="color: #ffd700; font-weight: bold;">
-                  <img style="width: 1.5em; height:1.5em;" src="../assets/credit.png"> 
-                  Credits: <span id="credits-amount">0</span>
-                </span>
-            </li>
-            <li class="nav-item">
-                <button class="nav-link" onclick="redirect_dashboard(event)"><p>Home</p></button>
-            </li>
-            <li class="nav-item">
-                <button class="nav-link" onclick="redirect_store(event)"><p>Store</p></button>
-            </li>
-            <li class="nav-item">
-                <button class="nav-link" onclick="redirect_mypets(event)"><p>myPets</p></button>
-            </li>
-        </ul>
-    </nav>
-    
-    <!-- vertically offset page content from navbar -->
-    <div style="padding: 2em;"></div>
-    <!-- Main Content -->
-    <div class="container">
-        
-    </div>
+	<!-- Navigation Bar -->
+	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+		<a class="navbar-brand" target="_blank" rel="noopener noreferrer"
+			href="https://www.google.com/search?q=tasker&oq=Tasker+&gs_lcrp=EgZjaHJvbWUqBggAEEUYOzIGCAAQRRg7Mg0IARAuGK8BGMcBGIAEMg0IAhAuGK8BGMcBGIAEMgcIAxAAGIAEMg0IBBAuGK8BGMcBGIAEMgoIBRAAGLEDGIAEMgcIBhAAGIAEMgcIBxAAGIAEMg0ICBAuGK8BGMcBGIAE0gEIMTMyOWowajeoAgCwAgA&sourceid=chrome&ie=UTF-8">
+			<img style="object-fit: contain; width: 4em; border-radius: 10px;" src="../assets/tasker.png">
+		</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+			aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item">
+				<span class="nav-link" id="credits-display" style="color: #ffd700; font-weight: bold;">
+					<img style="width: 1.5em; height:1.5em;" src="../assets/credit.png">
+					Credits: <span id="credits-amount">0</span>
+				</span>
+			</li>
+			<li class="nav-item">
+				<button class="nav-link" onclick="redirect_dashboard(event)">
+					<p>Home</p>
+				</button>
+			</li>
+			<li class="nav-item">
+				<button class="nav-link" onclick="redirect_store(event)">
+					<p>Store</p>
+				</button>
+			</li>
+			<li class="nav-item">
+				<button class="nav-link" onclick="redirect_mypets(event)">
+					<p>myPets</p>
+				</button>
+			</li>
+		</ul>
+	</nav>
 
-    <script src="../js/client.js"></script>
-    <script src="../js/client_dashboard.js"></script>
+	<div id="eggs-container">
+		<img id="eggImg" src="../assets/egg.png" alt="Egg" />
+	</div>
+
+	<div id="progress-container">
+		<div id="progressBar"></div>
+		<p id="progressText">0 / 100</p>
+	</div>
+
+
+	<!-- vertically offset page content from navbar -->
+	<div style="padding: 2em;"></div>
+	<!-- Main Content -->
+	<div class="container">
+
+		<script src="../js/client.js"></script>
+		<script src="../js/client_dashboard.js"></script>
+		<script src="../js/hatcher.js"></script>
+
 </body>
+
 </html>
 
-<div id="give-freely-root-ejkiikneibegknkgimmihdpcbcedgmpo" class="give-freely-root" data-extension-id="ejkiikneibegknkgimmihdpcbcedgmpo" data-extension-name="Volume Booster" style="display: block;"><template shadowrootmode="open"><style>
-  :host {
-    all: initial;
-  }
+<div id="give-freely-root-ejkiikneibegknkgimmihdpcbcedgmpo" class="give-freely-root"
+	data-extension-id="ejkiikneibegknkgimmihdpcbcedgmpo" data-extension-name="Volume Booster" style="display: block;">
+	<template shadowrootmode="open">
+		<style>
+			:host {
+				all: initial;
+			}
 
-  .gf-scroll-remove::-webkit-scrollbar {
-    border-radius-bottom-right: 15px;
-  }
+			.gf-scroll-remove::-webkit-scrollbar {
+				border-radius-bottom-right: 15px;
+			}
 
-  button {
-    cursor: pointer;
-    transition: transform 0.1s ease;
-  }
+			button {
+				cursor: pointer;
+				transition: transform 0.1s ease;
+			}
 
-  button:active {
-    transform: scale(0.98);
-  }
+			button:active {
+				transform: scale(0.98);
+			}
 
-  .give-freely-close-button:hover {
-    opacity: 0.7;
-  }
+			.give-freely-close-button:hover {
+				opacity: 0.7;
+			}
 
-  input[type="radio"] {
-    margin-right: 8px;
-  }
+			input[type="radio"] {
+				margin-right: 8px;
+			}
 
-  hr {
-    border: none;
-    border-top: 1px solid #e5e5e5;
-    margin: 1em 0;
-  }
+			hr {
+				border: none;
+				border-top: 1px solid #e5e5e5;
+				margin: 1em 0;
+			}
 
-  @media (max-width: 600px), (max-height: 480px) {
-    #give-freely-checkout-popup {
-      display: none !important;
-    }
-  }
-</style>
+			@media (max-width: 600px),
+			(max-height: 480px) {
+				#give-freely-checkout-popup {
+					display: none !important;
+				}
+			}
+		</style>

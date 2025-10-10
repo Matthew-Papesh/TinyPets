@@ -8,7 +8,7 @@ let pets = []
 document.addEventListener("DOMContentLoaded", async () => {
     const match = window.location.pathname.match(/\/dashboard\/(.+)/)
     // check url validity
-    if(!match) {
+    if (!match) {
         return console.error("Invalid dashboard URL")
     }
     // good match; parse user key from url
@@ -16,13 +16,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     // try to get user info and user task info by api
     try {
         const response = await fetch(`/api/dashboard/${key}/users`)
-        if(!response) {
+        if (!response) {
             throw new Error("Failed to fetch user")
         }
-        
+
         data = await response.json()
         username = data.id
-    } catch(err) {
+    } catch (err) {
         console.error(err.message)
     }
     // try to get user data info by api
@@ -31,23 +31,22 @@ document.addEventListener("DOMContentLoaded", async () => {
         const res_pets = await fetch(`/api/dashboard/${key}/pets`)
         eggs = await res_eggs.json()
         pets = await res_pets.json()
-        if(!res_eggs || !res_pets) {
+        if (!res_eggs || !res_pets) {
             throw new Error("Failed to fetch user data")
         }
-    } catch(err) {
+    } catch (err) {
         console.error(err.message)
     }
 
-    
     // fetch and display credits
     await loadCredits()
-    
+
     // add test button functionality
     const testCreditsBtn = document.getElementById("test-credits-btn")
     if (testCreditsBtn) {
         testCreditsBtn.addEventListener("click", addTestCredits)
     }
-    
+
     // add logout button functionality
     const logoutBtn = document.getElementById("logout-btn")
     if (logoutBtn) {
@@ -55,17 +54,64 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 })
 
+// loading user hatcher page.
+document.addEventListener("DOMContentLoaded", async () => {
+    const match = window.location.pathname.match(/\/hatcher\/(.+)/)
+    // check url validity
+    if (!match) {
+        return console.error("Invalid hatcher URL")
+    }
+    // good match; parse user key from url
+    key = match[1]
+    // try to get user info and user task info by api
+    try {
+        const response = await fetch(`/api/dashboard/${key}/users`)
+        if (!response) {
+            throw new Error("Failed to fetch user")
+        }
+
+        data = await response.json()
+        username = data.id
+    } catch (err) {
+        console.error(err.message)
+    }
+    // try to get user data info by api
+    try {
+        const res_eggs = await fetch(`/api/dashboard/${key}/eggs`)
+        const res_pets = await fetch(`/api/dashboard/${key}/pets`)
+        eggs = await res_eggs.json()
+        pets = await res_pets.json()
+        if (!res_eggs || !res_pets) {
+            throw new Error("Failed to fetch user data")
+        }
+    } catch (err) {
+        console.error(err.message)
+    }
+
+    // fetch and display credits
+    await loadCredits()
+
+    // add logout button functionality
+    const logoutBtn = document.getElementById("logout-btn")
+    if (logoutBtn) {
+        logoutBtn.addEventListener("click", logout)
+    }
+
+})
+
+
+
 // handles redirecting user to dashboard 
-const redirect_dashboard = async function(event) {window.location.href = `/dashboard/${key}`}
+const redirect_dashboard = async function (event) { window.location.href = `/dashboard/${key}` }
 // handles redirecting user to their mypets page 
-const redirect_mypets = async function(event) {window.location.href = `/mypets/${key}`}
+const redirect_mypets = async function (event) { window.location.href = `/mypets/${key}` }
 // handles redirecting user to their store page 
-const redirect_store = async function(event) {window.location.href = `/store/${key}`}
+const redirect_store = async function (event) { window.location.href = `/store/${key}` }
 // handles redirecting user to their hatcher page 
-const redirect_hatcher = async function(event) {window.location.href = `/hatcher/${key}`}
+const redirect_hatcher = async function (event) { window.location.href = `/hatcher/${key}` }
 
 // handles redirecting user to home page and flagging log out to server
-const logout = async function(event) {
+const logout = async function (event) {
     try {
         // parse json
         const json = {
@@ -77,7 +123,7 @@ const logout = async function(event) {
         const response = await fetch("/logout", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body 
+            body
         })
 
         // handle response
@@ -90,14 +136,14 @@ const logout = async function(event) {
             // Still redirect to login page even if server request fails
             window.location.href = "/"
         }
-    } catch(err) {
+    } catch (err) {
         console.error("Error during logout:", err.message)
         // Still redirect to login page even if there's an error
         window.location.href = "/"
     }
 }
 
-const play_audio = async function(event) {
+const play_audio = async function (event) {
     const panel_select = new Audio("../assets/menu-hover.mp3")
     panel_select.loop = false
     panel_select.playbackRate = 1.0
@@ -108,28 +154,28 @@ const play_audio = async function(event) {
     music.volume = 0.1
     music.autoplay = true
 
-    document.addEventListener('click', () => {music.play()})
-    document.getElementsByClassName("panel-button-petstore").item(0).addEventListener('mouseenter', () => {panel_select.play()})
-    document.getElementsByClassName("panel-button-hatching").item(0).addEventListener('mouseenter', () => {panel_select.play()})
-    document.getElementsByClassName("panel-button-mypets").item(0).addEventListener('mouseenter', () => {panel_select.play()})
+    document.addEventListener('click', () => { music.play() })
+    document.getElementsByClassName("panel-button-petstore").item(0).addEventListener('mouseenter', () => { panel_select.play() })
+    document.getElementsByClassName("panel-button-hatching").item(0).addEventListener('mouseenter', () => { panel_select.play() })
+    document.getElementsByClassName("panel-button-mypets").item(0).addEventListener('mouseenter', () => { panel_select.play() })
 }
 
 play_audio()
 
 // function to load and display user credits
-const loadCredits = async function() {
+const loadCredits = async function () {
     try {
         const response = await fetch(`/api/dashboard/${key}/credits`)
         if (!response.ok) {
             throw new Error("Failed to fetch credits")
         }
-        
+
         const data = await response.json()
         const creditsAmount = document.getElementById("credits-amount")
         if (creditsAmount) {
             creditsAmount.textContent = data.credits || 0
         }
-    } catch(err) {
+    } catch (err) {
         console.error("Error loading credits:", err.message)
         const creditsAmount = document.getElementById("credits-amount")
         if (creditsAmount) {
@@ -139,7 +185,7 @@ const loadCredits = async function() {
 }
 
 // function to update credits display (useful for when credits change)
-const updateCreditsDisplay = function(newAmount) {
+const updateCreditsDisplay = function (newAmount) {
     const creditsAmount = document.getElementById("credits-amount")
     if (creditsAmount) {
         creditsAmount.textContent = newAmount
@@ -147,29 +193,29 @@ const updateCreditsDisplay = function(newAmount) {
 }
 
 // function to refresh credits from server (useful after purchases/earnings)
-const refreshCredits = async function() {
+const refreshCredits = async function () {
     await loadCredits()
 }
 
 // test function to add credits (you can remove this later)
-const addTestCredits = async function() {
+const addTestCredits = async function () {
     try {
         const response = await fetch(`/api/dashboard/${key}/credits`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ amount: 10 })
         })
-        
+
         if (!response.ok) {
             throw new Error("Failed to add credits")
         }
-        
+
         const data = await response.json()
         updateCreditsDisplay(data.credits)
-        
+
         // Optional: Show a brief notification
         console.log("Added 10 credits! New total:", data.credits)
-    } catch(err) {
+    } catch (err) {
         console.error("Error adding credits:", err.message)
     }
 }
