@@ -120,7 +120,7 @@ body {
 /* Container */
 .container {
     width: 100%;
-    max-width: 500px;
+    height: 100%;
     background-color: rgba(49, 54, 56, 0.8); 
     border: 4px solid #089113; 
     box-shadow: 0 0 0 4px rgba(49, 54, 56, 0.8), 0 0 0 8px #00ff41; 
@@ -128,6 +128,7 @@ body {
     position: relative;
     overflow: hidden;
     backdrop-filter: blur(5px); 
+    align-items: center;
 }
 
 /* Title */

@@ -11,9 +11,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     let match = window.location.pathname.match(/\/dashboard\/(.+)/)
     if (!match) {
         match = window.location.pathname.match(/\/store\/(.+)/)
-    }
-    if (!match) {
+    } if (!match) {
         match = window.location.pathname.match(/\/mypets\/(.+)/)
+    } if (!match) {
+        match = window.location.pathname.match(/\/hatcher\/(.+)/)
     }
 
     // check url validity
@@ -22,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     // good match; parse user key from url
     key = match[1]
-    
+
     // try to get user info and user task info by api
     try {
         const response = await fetch(`/api/dashboard/${key}/users`)
@@ -31,17 +32,25 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         data = await response.json()
+        
         username = data.id
     } catch (err) {
         console.error(err.message)
     }
     // try to get user data info by api
     try {
-        const res_egg = await fetch(`/api/dashboard/${key}/egg`)
-        const res_pets = await fetch(`/api/dashboard/${key}/pets`)
-        egg = await res_egg.json()
-        pets = await res_pets.json()
-        if (!res_egg || !res_pets) {
+        const response = await fetch(`/api/dashboard/${key}/egg`)
+        egg = await response.json()
+        if (!response) {
+            throw new Error("Failed to fetch user data")
+        }
+    } catch (err) {
+        console.error(err.message)
+    }
+    try {
+        const response = await fetch(`/api/dashboard/${key}/pets`)
+        pets = await response.json()
+        if (!response) {
             throw new Error("Failed to fetch user data")
         }
     } catch (err) {
@@ -62,58 +71,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (logoutBtn) {
         logoutBtn.addEventListener("click", logout)
     }
+
+    play_audio()
+    const hatcher_panel_dom = document.getElementById("hatching-link-id")
+    if(JSON.stringify(egg) === "{}" && hatcher_panel_dom !== null) {
+        hatcher_panel_dom.innerHTML = "<p>Must Buy Egg</p>"
+        hatcher_panel_dom.style = "background-color: grey; font-size: 5em; color: red;"
+    }
 })
-
-// loading user hatcher page.
-document.addEventListener("DOMContentLoaded", async () => {
-    const match = window.location.pathname.match(/\/hatcher\/(.+)/)
-    // check url validity
-    if (!match) {
-        return console.error("Invalid hatcher URL")
-    }
-    // good match; parse user key from url
-    key = match[1]
-    // try to get user info and user task info by api
-    try {
-        const response = await fetch(`/api/dashboard/${key}/users`)
-        if (!response) {
-            throw new Error("Failed to fetch user")
-        }
-    
-        data = await response.json()
-        username = data.id
-    } catch (err) {
-        console.error(err.message)
-    }
-    // try to get user data info by api
-    try {
-        const res_egg = await fetch(`/api/dashboard/${key}/egg`)
-        const res_pets = await fetch(`/api/dashboard/${key}/pets`)
-        egg = await res_egg.json()
-        pets = await res_pets.json()
-        if (!res_eggs || !res_pets) {
-            throw new Error("Failed to fetch user data")
-        }
-    } catch (err) {
-        console.error(err.message)
-    }
-
-    // fetch and display credits
-    await loadCredits()
-
-    // add logout button functionality
-    const logoutBtn = document.getElementById("logout-btn")
-    if (logoutBtn) {
-        logoutBtn.addEventListener("click", logout)
-    }
-
-})
-
-const hatcher_panel_dom = document.getElementById("hatching-link-id")
-if(JSON.stringify(egg) === "{}" && hatcher_panel_dom !== null) {
-    hatcher_panel_dom.innerHTML = "<p>Must Buy Egg</p>"
-    hatcher_panel_dom.style = "background-color: grey; font-size: 5em; color: red;"
-}
 
 // handles redirecting user to dashboard 
 const redirect_dashboard = async function (event) { window.location.href = `/dashboard/${key}` }
@@ -122,7 +87,11 @@ const redirect_mypets = async function (event) { window.location.href = `/mypets
 // handles redirecting user to their store page 
 const redirect_store = async function (event) { window.location.href = `/store/${key}` }
 // handles redirecting user to their hatcher page 
-const redirect_hatching = async function (event) { window.location.href = `/hatcher/${key}` }
+const redirect_hatching = async function (event) {
+    if(JSON.stringify(egg) !== "{}") {
+        window.location.href = `/hatcher/${key}` 
+    }
+}
 
 // handles redirecting user to home page and flagging log out to server
 const logout = async function (event) {
@@ -174,8 +143,6 @@ const play_audio = async function (event) {
     document.getElementsByClassName("panel-button-mypets").item(0).addEventListener('mouseenter', () => { panel_select.play() })
 }
 
-play_audio()
-
 // function to load and display user credits
 const loadCredits = async function () {
     try {
@@ -197,14 +164,6 @@ const loadCredits = async function () {
         if (creditsAmount) {
             creditsAmount.textContent = "0"
         }
-    }
-}
-
-// function to update credits display (useful for when credits change)
-const updateCreditsDisplay = function (newAmount) {
-    const creditsAmount = document.getElementById("credits-amount")
-    if (creditsAmount) {
-        creditsAmount.textContent = newAmount
     }
 }
 

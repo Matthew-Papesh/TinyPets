@@ -1,4 +1,24 @@
 // My Pets page functionality
+// Load and display pets when page loads
+document.addEventListener("DOMContentLoaded", async () => {
+    // Check if we're on the mypets page
+    if (!window.location.pathname.includes('/mypets/')) {
+        return // Not on mypets page, don't run this code
+    }
+    
+    // Try immediately, then try again after a delay in case client_dashboard.js is still loading
+    await initMyPetsPage()
+    
+    // Also try again after a delay to catch data loaded by client_dashboard.js
+    setTimeout(async () => {
+        // Only reload if we still don't have pets displayed
+        const petsContainer = document.getElementById("pets-container")
+        if (petsContainer && petsContainer.children.length === 0) {
+            console.log("Retrying My Pets initialization...")
+            await initMyPetsPage()
+        }
+    }, 1000)
+})
 
 // Function to initialize My Pets page
 const initMyPetsPage = async function() {
@@ -32,27 +52,6 @@ const initMyPetsPage = async function() {
         await loadUserData()
     }
 }
-
-// Load and display pets when page loads
-document.addEventListener("DOMContentLoaded", async () => {
-    // Check if we're on the mypets page
-    if (!window.location.pathname.includes('/mypets/')) {
-        return // Not on mypets page, don't run this code
-    }
-    
-    // Try immediately, then try again after a delay in case client_dashboard.js is still loading
-    await initMyPetsPage()
-    
-    // Also try again after a delay to catch data loaded by client_dashboard.js
-    setTimeout(async () => {
-        // Only reload if we still don't have pets displayed
-        const petsContainer = document.getElementById("pets-container")
-        if (petsContainer && petsContainer.children.length === 0) {
-            console.log("Retrying My Pets initialization...")
-            await initMyPetsPage()
-        }
-    }, 1000)
-})
 
 // Function to load user data (credits, etc.)
 const loadUserData = async function() {
@@ -127,10 +126,10 @@ const createPetCard = function(pet, index) {
     const petImageName = pet.src_img.replace('.png', '')
     
     col.innerHTML = `
-        <div class="card h-100" style="background-color: #2c3e50; border: 2px solid #ffd700; border-radius: 10px;">
+        <div class="card h-100" style="background-color: #2c3e50; border: 2px solid #ffd700; border-radius: 10px; width: 100%; height: 100%;">
             <div class="card-body text-center">
                 <img src="../assets/${petImageName}.png" alt="${petImageName}" 
-                     style="width: 100px; height: 100px; object-fit: contain; margin-bottom: 15px;" 
+                     style="width: 100%; height: 40%; object-fit: contain; margin-bottom: 15px;" 
                      onerror="this.src='../assets/bunny.png'">
                 <h5 class="card-title" style="color: #ffd700; font-family: 'Courier New', monospace; text-transform: capitalize;">
                     ${petImageName.replace(/[-_]/g, ' ')}
@@ -211,4 +210,32 @@ const updateCreditsDisplay = function(newAmount) {
     if (creditsAmount) {
         creditsAmount.textContent = newAmount
     }
+}
+
+// creates a div for a mypet pet to be seen on mypets page
+const render_card = async (pet_name) => {  
+    const mypets_cards = document.getElementById("mypets-cards-id")
+    const div = document.createElement("div")
+    div.innerHTML = `\
+      <div class='cards-container grid-view'>\
+        <div class='card'>\
+          <div class='card-badge'>TINY PET</div>\
+          <div class='card-inner'>\
+            <img src='../assets/${pet_name}.png' class='pixel-art' alt='Mario character'>\
+            <div class='card-details'>\
+              <h2 class='card-name'>${pet_name}</h2>\
+            </div>\
+          </div>\
+          <div class='card-overlay'>\
+            <div class='stat'>\
+              <span class='stat-label'>Value ($)</span>\
+              <span class='stat-value'>100</span>\
+            </div>\
+            <div class='stat-bar'>\
+              <div class='stat-fill' style='--fill-percent: 92%''></div>\
+            </div>\
+          </div>\
+        </div>\
+      </div>`
+    mypets_cards.append(div)
 }
