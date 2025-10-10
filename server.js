@@ -18,56 +18,86 @@ mongoose.connect(uri)
 // schema outlining the data belonging to a user account
 const user_schema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
-    password: {type: String, required: true },
+    password: { type: String, required: true },
     key: { type: Number, unique: true },
     signed_in: { type: Boolean, required: true },
     first_name: String,
-    last_name: String, 
+    last_name: String,
     credits: Number,
-    egg: {img_src: String, id: Number},
-    pets: [{img_src: String, id: Number}]
+    egg: { img_src: String, id: Number },
+    pets: [{ img_src: String, id: Number }]
 }, { timestamps: true })
 
 const User = mongoose.model("User", user_schema)
 
 // send home page html
-app.get("/", (req, res) => 
-    {res.sendFile(path.join(__dirname, "public", "index.html"))})
+app.get("/", (req, res) => { res.sendFile(path.join(__dirname, "public", "index.html")) })
 // send signup page html
-app.get("/signup", (req, res) => 
-    {res.sendFile(path.join(__dirname, "public", "sign_up.html"))})
+app.get("/signup", (req, res) => { res.sendFile(path.join(__dirname, "public", "sign_up.html")) })
 // send signin page html
 app.get("/signin", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "sign_in.html"))})
+    res.sendFile(path.join(__dirname, "public", "sign_in.html"))
+})
 app.get("/dashboard", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "dashboard.html"))})
+    res.sendFile(path.join(__dirname, "public", "dashboard.html"))
+})
+app.get("/store", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "store.html"))
+})
 
 // send account page for each user page html (UNIQUE PAGE BY ACCOUNT)
 app.get("/dashboard/:key", async (req, res) => {
     const key = req.params.key
-    if(key !== "0") {
+    if (key !== "0") {
         // handle finding user
         try {
             // find user by key
             const user = await User.findOne({ key })
             // handle if user not found
-            if(!user) {
+            if (!user) {
                 return res.status(404).send("User not found")
             }
 
             // only send html if signed in from sign in page
-            if(user.signed_in) { 
+            if (user.signed_in) {
                 res.sendFile(path.join(__dirname, "public", "dashboard.html"))
             } else {
                 res.status(401).send("Not authorized")
             }
-        } catch(err) {
+        } catch (err) {
             res.status(500).send(`Server error: ${err.message}`)
         }
     }
 
     console.log(key)
     res.sendFile(path.join(__dirname, "public", "dashboard.html"))
+})
+// send store page for each user (UNIQUE PAGE BY ACCOUNT)
+app.get("/store/:key", async (req, res) => {
+    const key = req.params.key
+    if (key !== "0") {
+        // handle finding user
+        try {
+            // find user by key
+            const user = await User.findOne({ key })
+            // handle if user not found
+            if (!user) {
+                return res.status(404).send("User not found")
+            }
+
+            // only send html if signed in from sign in page
+            if (user.signed_in) {
+                res.sendFile(path.join(__dirname, "public", "store.html"))
+            } else {
+                res.status(401).send("Not authorized")
+            }
+        } catch (err) {
+            res.status(500).send(`Server error: ${err.message}`)
+        }
+    }
+
+    console.log(key)
+    res.sendFile(path.join(__dirname, "public", "store.html"))
 })
 // send user account info
 app.get("/api/dashboard/:key/users", async (req, res) => {
@@ -77,14 +107,14 @@ app.get("/api/dashboard/:key/users", async (req, res) => {
         // find user by key
         const user = await User.findOne({ key })
         // handle if user not found
-        if(!user) {
+        if (!user) {
             return res.status(404).send("User not found")
         }
 
-        const name = `${user.first_name} ${user.last_name}` 
+        const name = `${user.first_name} ${user.last_name}`
         // user found; send tasks data back
         res.json({ id: name || user.email })
-    } catch(err) {
+    } catch (err) {
         res.status(500).send(`Server error: ${err.message}`)
     }
 })
@@ -96,12 +126,12 @@ app.get("/api/dashboard/:key/egg", async (req, res) => {
         // find user by key
         const user = await User.findOne({ key })
         // handle if user not found
-        if(!user) {
+        if (!user) {
             return res.status(404).send("User not found")
         }
 
         res.json(user.egg)
-    } catch(err) {
+    } catch (err) {
         res.status(500).send(`Server error: ${err.message}`)
     }
 })
@@ -112,12 +142,12 @@ app.get("/api/dashboard/:key/pets", async (req, res) => {
     try {
         // find user by key
         const user = await User.findOne(({ key }))
-        if(!user) {
+        if (!user) {
             return res.status(404).send("User not found")
         }
 
         res.json(user.pets)
-    } catch(err) {
+    } catch (err) {
         res.status(500).send(`Server error: ${err.message}`)
     }
 })
@@ -128,7 +158,7 @@ app.post("/rmegg", async (req, res) => {
     const key = req.body.key
     const src_img = req.body.src_img
     const id = req.body.id
-    
+
 
     // try to update user account 
     try {
@@ -143,7 +173,7 @@ app.post("/rmegg", async (req, res) => {
         }
         // respond to client
         res.status(200).send("User updated successfully")
-    } catch(err) {
+    } catch (err) {
         res.status(500).send(`Server error: ${err.message}`)
     }
 })
@@ -153,7 +183,7 @@ app.post("/rmpet", async (req, res) => {
     const key = req.body.key
     const src_img = req.body.src_img
     const id = req.body.id
-    
+
 
     // try to update user account 
     try {
@@ -168,7 +198,7 @@ app.post("/rmpet", async (req, res) => {
         }
         // respond to client
         res.status(200).send("User updated successfully")
-    } catch(err) {
+    } catch (err) {
         res.status(500).send(`Server error: ${err.message}`)
     }
 })
@@ -193,7 +223,7 @@ app.post("/pushegg", async (req, res) => {
         }
         // respond to client
         res.status(200).send("User updated successfully")
-    } catch(err) {
+    } catch (err) {
         res.status(500).send(`Server error: ${err.message}`)
     }
 })
@@ -217,7 +247,7 @@ app.post("/pushpet", async (req, res) => {
         }
         // respond to client
         res.status(200).send("User updated successfully")
-    } catch(err) {
+    } catch (err) {
         res.status(500).send(`Server error: ${err.message}`)
     }
 })
@@ -229,16 +259,16 @@ app.post("/signup", async (req, res) => {
     const first_name = req.body.first_name
     const last_name = req.body.last_name
     const password = req.body.password
-    
+
     // create unique key from email
     let key = "" // compute key to dashboard url
-    for(let i=0; i < email.length; i++) {
-        let character =email[i] // "encryption" key
-        let values = parseInt(character.charCodeAt(0) / (i+1)).toString()
-        let digit = values.at(parseInt(values.length/2))
+    for (let i = 0; i < email.length; i++) {
+        let character = email[i] // "encryption" key
+        let values = parseInt(character.charCodeAt(0) / (i + 1)).toString()
+        let digit = values.at(parseInt(values.length / 2))
         key = key + digit
     }
-    
+
     try {
         // create a new user instance from req data
         const signed_in = false // mark as not signed in yet
@@ -247,7 +277,7 @@ app.post("/signup", async (req, res) => {
         await new_user.save()
         // succeeded; tell the client in res
         res.status(201).send("Account registered!")
-    } catch(err) {
+    } catch (err) {
         // failed to register
         res.status(400).send(`Failed to register; The email may already have an account.`)
     }
@@ -261,10 +291,10 @@ app.post("/signin", async (req, res) => {
     try {
         // get user with specified email
         const user = await User.findOne({ email })
-        if(!user) {
+        if (!user) {
             return res.status(400).send("User not found. Register with the link above.")
         } // check email password with one specified 
-        else if(user.password !== password) {
+        else if (user.password !== password) {
             return res.status(400).send("Incorrect password")
         }
 
@@ -276,7 +306,7 @@ app.post("/signin", async (req, res) => {
             key: user.key
         })
 
-    } catch(err) {
+    } catch (err) {
         res.status(500).send(`Error signing in: ${err.message}`)
     }
 })
@@ -298,7 +328,7 @@ app.post("/logout", async (req, res) => {
         }
         // respond to client
         res.status(200).send("User updated successfully")
-    } catch(err) {
+    } catch (err) {
         res.status(500).send(`Error signing in: ${err.message}`)
     }
 })
