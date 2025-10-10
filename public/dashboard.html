@@ -1,165 +1,150 @@
 <!DOCTYPE html>
 <!-- saved from url=(0048)https://getbootstrap.com/docs/4.0/examples/grid/ -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="https://getbootstrap.com/docs/4.0/assets/img/favicons/favicon.ico">
-    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/grid/">
+<html lang="en">
 
-    <!-- Name of page -->
-    <title>TinyPets - Dashboard</title>
-    <!-- Bootstrap core CSS -->
-    <link href="../dashboard_files/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom styles for this template -->
-    <link href="../dashboard_files/style.css" rel="stylesheet">
+<!-- Name of page -->
+<title>TinyPets - Dashboard</title>
+<!-- Bootstrap core CSS -->
+<link href="../dashboard_files/bootstrap.min.css" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link href="../dashboard_files/style.css" rel="stylesheet">
 
-  </head>
-  <body>
-      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-          <a 
-            class="navbar-brand" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            href="https://www.google.com/search?q=tasker&oq=Tasker+&gs_lcrp=EgZjaHJvbWUqBggAEEUYOzIGCAAQRRg7Mg0IARAuGK8BGMcBGIAEMg0IAhAuGK8BGMcBGIAEMgcIAxAAGIAEMg0IBBAuGK8BGMcBGIAEMgoIBRAAGLEDGIAEMgcIBhAAGIAEMgcIBxAAGIAEMg0ICBAuGK8BGMcBGIAE0gEIMTMyOWowajeoAgCwAgA&sourceid=chrome&ie=UTF-8" 
-          >
-            <img 
-              style="object-fit: contain; width: 4em; border-radius: 10px;" src="../assets/tasker.png"
-            >
-          </a>
-          <button 
-            class="navbar-toggler" 
-            type="button" 
-            data-toggle="collapse" 
-            data-target="#navbarsExampleDefault" 
-            aria-controls="navbarsExampleDefault" 
-            aria-expanded="false" 
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" target="_blank" rel="noopener noreferrer"
+      href="https://www.google.com/search?q=tasker&oq=Tasker+&gs_lcrp=EgZjaHJvbWUqBggAEEUYOzIGCAAQRRg7Mg0IARAuGK8BGMcBGIAEMg0IAhAuGK8BGMcBGIAEMgcIAxAAGIAEMg0IBBAuGK8BGMcBGIAEMgoIBRAAGLEDGIAEMgcIBhAAGIAEMgcIBxAAGIAEMg0ICBAuGK8BGMcBGIAE0gEIMTMyOWowajeoAgCwAgA&sourceid=chrome&ie=UTF-8">
+      <img style="object-fit: contain; width: 4em; border-radius: 10px;" src="../assets/tasker.png">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+      aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbar-id">
+      <ul class="navbar-nav mr-auto">
+        <li id="username"></li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <span class="nav-link" id="credits-display" style="color: #ffd700; font-weight: bold;">
+            <img style="width: 1.5em; height:1.5em;" src="../assets/credit.png">
+            Credits: <span id="credits-amount">0</span>
+          </span>
+        </li>
+        <li class="nav-item">
+          <button id="test-credits-btn" class="btn btn-sm"
+            style="background-color: #089113; color: white; border: none; margin-left: 10px; padding: 4px 8px; border-radius: 4px;">
+            +10 Credits (Test)
           </button>
-        
-          <div class="collapse navbar-collapse" id="navbar-id">
-            <ul class="navbar-nav mr-auto">
-              <li id="username"></li>
-              <li class="nav-item">
-                
-                <span class="nav-link" id="credits-display" style="color: #ffd700; font-weight: bold;">
-                  <img style="width: 1.5em; height:1.5em;" src="../assets/credit.png"> 
-                  Credits: <span id="credits-amount">0</span>
-                </span>
-              </li>
-              <li class="nav-item">
-                <button id="test-credits-btn" class="btn btn-sm" style="background-color: #089113; color: white; border: none; margin-left: 10px; padding: 4px 8px; border-radius: 4px;">
-                  +10 Credits (Test)
-                </button>
-              </li>
-            </ul>
-            <ul class="navbar-nav ml-auto">
-              <li class="nav-item">
-                <button id="logout-btn" class="btn btn-sm" style="background-color: #ff004d; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-family: 'VT323', monospace; font-size: 16px;">
-                  LOGOUT
-                </button>
-              </li>
-            </ul>
-          </div>
-        </nav>
-        
-      <!-- vertically offset page content from navbar -->
-      <div style="padding: 2em;"></div>
-      <!-- render main dashboard menu panels -->
-      <div style="display: flex; flex-direction: row; width: 80dvw; height: 85dvh; margin: 0 auto; margin-top: 3em;">
-        <div style="width: 50%; height: 100%;">
-          <button class="panel panel-button-petstore" target="_blank">
+        </li>
+        <li class="nav-item">
+          <button id="logout-btn" class="btn btn-sm"
+            style="background-color: #ff004d; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-family: 'VT323', monospace; font-size: 16px;">
+            LOGOUT
           </button>
-        </div>
-        <div style="display: flex; flex-direction: column; width: 50%; height: 100%;">
-          <div style="width: 100%; height: 67%; border-radius: 20px; margin-bottom: 1em; margin-left: 2em; padding: 0em;">
-            <button class="panel panel-button-hatching" target="_blank" onclick="redirect_hatcher(event)">
-            </button>
-          </div>
-          <div style="width: 100%; height: 33%; border-radius: 20px; margin-top: 1em; margin-left: 2em; padding: 0em;">
-            <button id="mypets-link-id" class="panel panel-button-mypets" onclick="redirect_mypets(event)">
-            </button>
-          </div>
-        </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- vertically offset page content from navbar -->
+  <div style="padding: 2em;"></div>
+  <!-- render main dashboard menu panels -->
+  <div style="display: flex; flex-direction: row; width: 80dvw; height: 85dvh; margin: 0 auto; margin-top: 3em;">
+    <div style="width: 50%; height: 100%;">
+      <button id="store-link-id" class="panel panel-button-petstore" onclick="redirect_store(event)">
+      </button>
+    </div>
+    <div style="display: flex; flex-direction: column; width: 50%; height: 100%;">
+      <div style="width: 100%; height: 67%; border-radius: 20px; margin-bottom: 1em; margin-left: 2em; padding: 0em;">
+        <button class="panel panel-button-hatching" onclick="redirect_hatching(event)">
+        </button>
+      </div>
+      <div style="width: 100%; height: 33%; border-radius: 20px; margin-top: 1em; margin-left: 2em; padding: 0em;">
+        <button id="mypets-link-id" class="panel panel-button-mypets" onclick="redirect_mypets(event)">
+        </button>
       </div>
     </div>
-    <script src="../js/client_dashboard.js"></script>
-    <script src="../js/client.js"></script>
-  </body>
+  </div>
+  </div>
+  </div>
+  </div>
+  <script src="../js/client_dashboard.js"></script>
+  <script src="../js/client.js"></script>
+</body>
 
 
-<div id="give-freely-root-ejkiikneibegknkgimmihdpcbcedgmpo" class="give-freely-root" data-extension-id="ejkiikneibegknkgimmihdpcbcedgmpo" data-extension-name="Volume Booster" style="display: block;"><template shadowrootmode="open"><style>
-  :host {
-    all: initial;
-  }
-
-  .gf-scroll-remove::-webkit-scrollbar {
-    border-radius-bottom-right: 15px;
-  }
-
-  button {
-    cursor: pointer;
-    transition: transform 0.1s ease;
-  }
-
-  button:active {
-    transform: scale(0.98);
-  }
-
-  .give-freely-close-button:hover {
-    opacity: 0.7;
-  }
-
-  input[type="radio"] {
-    margin-right: 8px;
-  }
-
-  hr {
-    border: none;
-    border-top: 1px solid #e5e5e5;
-    margin: 1em 0;
-  }
-
-  @media (max-width: 600px), (max-height: 480px) {
-    #give-freely-checkout-popup {
-      display: none !important;
-    }
-  }
-</style>
-<grammarly-desktop-integration data-grammarly-shadow-root="true">
+<div id="give-freely-root-ejkiikneibegknkgimmihdpcbcedgmpo" class="give-freely-root"
+  data-extension-id="ejkiikneibegknkgimmihdpcbcedgmpo" data-extension-name="Volume Booster" style="display: block;">
   <template shadowrootmode="open">
     <style>
-      div.grammarly-desktop-integration {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        white-space: nowrap;
-        border: 0;
-        -moz-user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select:none;
-        user-select:none;
+      :host {
+        all: initial;
       }
 
-      div.grammarly-desktop-integration:before {
-        content: attr(data-content);
+      .gf-scroll-remove::-webkit-scrollbar {
+        border-radius-bottom-right: 15px;
+      }
+
+      button {
+        cursor: pointer;
+        transition: transform 0.1s ease;
+      }
+
+      button:active {
+        transform: scale(0.98);
+      }
+
+      .give-freely-close-button:hover {
+        opacity: 0.7;
+      }
+
+      input[type="radio"] {
+        margin-right: 8px;
+      }
+
+      hr {
+        border: none;
+        border-top: 1px solid #e5e5e5;
+        margin: 1em 0;
+      }
+
+      @media (max-width: 600px),
+      (max-height: 480px) {
+        #give-freely-checkout-popup {
+          display: none !important;
+        }
       }
     </style>
-    <div 
-      aria-label="grammarly-integration" 
-      role="group" 
-      tabindex="-1" 
-      class="grammarly-desktop-integration" 
-      data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"
-    >
-    </div>
-  </template>
-</grammarly-desktop-integration>
+    <grammarly-desktop-integration data-grammarly-shadow-root="true">
+      <template shadowrootmode="open">
+        <style>
+          div.grammarly-desktop-integration {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+          }
+
+          div.grammarly-desktop-integration:before {
+            content: attr(data-content);
+          }
+        </style>
+        <div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration"
+          data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}">
+        </div>
+      </template>
+    </grammarly-desktop-integration>
+
 </html>
