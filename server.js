@@ -44,7 +44,6 @@ app.get("/dashboard", (req, res) => {
 app.get("/store", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "store.html"))
 })
-res.sendFile(path.join(__dirname, "public", "dashboard.html"))})
 app.get("/mypets", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "mypets.html"))
 })
@@ -71,12 +70,12 @@ app.get("/dashboard/:key", async (req, res) => {
         } catch (err) {
             res.status(500).send(`Server error: ${err.message}`)
         }
+    } else {
+        console.log(key)
+        res.sendFile(path.join(__dirname, "public", "dashboard.html"))
     }
-
-    console.log(key)
-    res.sendFile(path.join(__dirname, "public", "dashboard.html"))
 })
-// send store page for each user (UNIQUE PAGE BY ACCOUNT)
+// send store page for each user
 app.get("/store/:key", async (req, res) => {
     const key = req.params.key
     if (key !== "0") {
@@ -98,12 +97,12 @@ app.get("/store/:key", async (req, res) => {
         } catch (err) {
             res.status(500).send(`Server error: ${err.message}`)
         }
+    } else {
+        console.log(key)
+        res.sendFile(path.join(__dirname, "public", "store.html"))
     }
-
-    console.log(key)
-    res.sendFile(path.join(__dirname, "public", "store.html"))
 })
-// send mypets page for each user (UNIQUE PAGE BY ACCOUNT)
+// send mypets page for each user
 app.get("/mypets/:key", async (req, res) => {
     const key = req.params.key
     if (key !== "0") {
@@ -125,10 +124,10 @@ app.get("/mypets/:key", async (req, res) => {
         } catch (err) {
             res.status(500).send(`Server error: ${err.message}`)
         }
+    } else {
+        console.log(key)
+        res.sendFile(path.join(__dirname, "public", "mypets.html"))
     }
-
-    console.log(key)
-    res.sendFile(path.join(__dirname, "public", "mypets.html"))
 })
 // send user account info
 app.get("/api/dashboard/:key/users", async (req, res) => {
@@ -232,23 +231,20 @@ app.post("/api/dashboard/:key/credits", async (req, res) => {
 app.post("/rmegg", async (req, res) => {
     // get args from request 
     const key = req.body.key
-    const src_img = req.body.src_img
-    const id = req.body.id
-
 
     // try to update user account 
     try {
-        // find user by key and pull egg 
+        // find user by key and remove egg (set to null)
         const result = await User.updateOne(
             { key },
-            { $pull: { eggs: { src_img, id } } }
+            { $unset: { egg: "" } }
         )
         // send error if this fails
         if (result.matchedCount === 0) {
             return res.status(404).send("User not found")
         }
         // respond to client
-        res.status(200).send("User updated successfully")
+        res.status(200).send("Egg removed successfully")
     } catch (err) {
         res.status(500).send(`Server error: ${err.message}`)
     }
@@ -285,20 +281,42 @@ app.post("/pushegg", async (req, res) => {
     const key = req.body.key
     const src_img = req.body.src_img
     const id = req.body.id
+    const cost = req.body.cost || 100  // default cost of 100 credits
 
-    // try to update user account task list
+    // try to update user account egg and deduct credits
     try {
-        // find user by key and push egg to account
+        // first check if user has enough credits
+        const user = await User.findOne({ key })
+        if (!user) {
+            return res.status(404).send("User not found")
+        }
+        if (user.credits < cost) {
+            return res.status(400).json({ error: "Insufficient credits" })
+        }
+
+        // update user with new egg and deduct credits
         const result = await User.updateOne(
             { key },
-            { $push: { eggs: { src_img, id } } }
+            {
+                $set: { egg: { img_src: src_img, id } },
+                $inc: { credits: -cost }
+            }
         )
+
         // send error if this fails
         if (result.matchedCount === 0) {
             return res.status(404).send("User not found")
         }
-        // respond to client
-        res.status(200).send("User updated successfully")
+
+        // get updated user data
+        const updatedUser = await User.findOne({ key })
+
+        // respond to client with updated data
+        res.status(200).json({
+            message: "Egg purchased successfully",
+            egg: updatedUser.egg,
+            credits: updatedUser.credits
+        })
     } catch (err) {
         res.status(500).send(`Server error: ${err.message}`)
     }
