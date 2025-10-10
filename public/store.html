@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<!-- saved from url=(0048)https://getbootstrap.com/docs/4.0/examples/grid/ -->
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="https://getbootstrap.com/docs/4.0/assets/img/favicons/favicon.ico">
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/grid/">
+
+    <!-- Name of page -->
+    <title>TinyPets - Store</title>
+    <!-- Bootstrap core CSS -->
+    <link href="../dashboard_files/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="../dashboard_files/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="#" onclick="redirect_dashboard(event); return false;" style="cursor: pointer;">
+            <img style="object-fit: contain; width: 4em; border-radius: 10px;" src="../assets/tasker.png">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+            aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbar-id">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="redirect_dashboard(event); return false;">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="redirect_hatching(event); return false;">Egg Hatching</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="redirect_mypets(event); return false;">My Pets</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="redirect_store(event); return false;">Pet Store</a><span
+                        class="sr-only">(current)</span>
+                </li>
+                <li id="username"></li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <span class="nav-link" id="credits-display" style="color: #ffd700; font-weight: bold;">
+                        <img style="width: 1.5em; height:1.5em;" src="../assets/credit.png">
+                        Credits: <span id="credits-amount">0</span>
+                    </span>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div style="padding: 2em;"></div>
+
+    <!-- Store  -->
+    <div style="margin: 0 auto; margin-top: 3em; text-align: center; max-width: 600px;">
+        <h1>TinyPets Store</h1>
+        <p>Buy magical eggs to hatch adorable pets!</p>
+
+        <!-- Current Egg -->
+        <div
+            style="margin: 2em 0; padding: 1em; border: 2px solid #089113; border-radius: 10px; background-color: rgba(240, 248, 240, 0.7); color: #333;">
+            <h3 style="color: #089113;">Your Current Egg:</h3>
+            <p id="current-egg-display" style="color: #333;">None</p>
+        </div>
+
+        <!-- Buy Egg -->
+        <div
+            style="margin: 2em 0; padding: 1em; border: 2px solid #0066cc; border-radius: 10px; background-color: rgba(240, 246, 255, 0.7); color: #333;">
+            <h3 style="color: #0066cc;">Buy New Egg</h3>
+            <p style="color: #333;">Cost: 100 credits</p>
+            <button id="buy-egg-btn"
+                style="background-color: #0066cc; color: white; border: none; padding: 10px 20px; border-radius: 5px; font-size: 16px; cursor: pointer;">
+                🥚 Buy Random Egg
+            </button>
+        </div>
+
+        <!-- Response -->
+        <div id="message-area" style="margin: 1em 0; min-height: 30px;"></div>
+    </div>
+
+    <script src="../js/client_dashboard.js"></script>
+    <script src="../js/client.js"></script>
+    <script>
+
+        // wait for load
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(updateEggDisplay, 1000);
+
+            // get button
+            const buyEggBtn = document.getElementById('buy-egg-btn');
+            if (buyEggBtn) {
+                buyEggBtn.addEventListener('click', buyEgg);
+            }
+        });
+
+        // show egg
+        function updateEggDisplay() {
+            const eggDisplay = document.getElementById('current-egg-display');
+
+            //display egg image and name
+            if (eggDisplay) {
+                if (egg && egg.src_img) {
+                    eggDisplay.innerHTML = `
+                        <div style="text-align: center;">
+                            <img src="../assets/${egg.src_img}.png" alt="${egg.src_img}" style="width: 80px; height: 80px; display: block; margin: 0 auto;">
+                            <p style="margin-top: 10px; color: #333;">${egg.src_img}</p>
+                        </div>
+                    `;
+                } else {
+                    eggDisplay.innerHTML = '<p style="color: #333;">None</p>';
+                }
+            }
+        }
+
+        async function buyEgg() {
+            const messageArea = document.getElementById('message-area');
+
+            // if user has enough credits
+            if (!credits || credits < 100) {
+                showMessage('Not enough credits! You need 100 credits to buy an egg.', 'error');
+                return;
+            }
+
+            try {
+                // get random egg
+                const eggTypes = [
+                    { id: 1, img_src: 'Egg' },
+                    { id: 2, img_src: 'Rare Egg' },
+                    { id: 3, img_src: 'Uncommon Egg' },
+                    { id: 4, img_src: 'Legendary Egg' }
+                ];
+
+                //get random number 1-10
+                const randomNumber = Math.floor(Math.random() * 10) + 1;
+
+                let randomEgg;
+
+                if (randomNumber <= 4) {
+                    randomEgg = { id: 1, img_src: "egg"}//ggTypes[3];
+                } else {
+                    randomEgg = { id: 2, img_src: "egg2"}
+                }
+                
+                /* else if (randomNumber <= 3) {
+                    randomEgg = eggTypes[1];
+                } else if (randomNumber <= 6) {
+                    randomEgg = eggTypes[2];
+                } else {
+                    randomEgg = eggTypes[0];
+                }*/
+
+                showMessage('Purchasing egg...', 'info');
+
+                // replace egg with pushegg
+                const response = await fetch('/pushegg', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        key: key,
+                        src_img: randomEgg.img_src,
+                        id: randomEgg.id,
+                        cost: 100
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Failed to purchase egg');
+                }
+
+                // show new egg and update credits
+                const eggResult = await fetch(`/api/dashboard/${key}/egg`);
+                egg = await eggResult.json();
+                
+                // get updated credits
+                const creditsResult = await fetch(`/api/dashboard/${key}/credits`);
+                const creditsData = await creditsResult.json();
+                credits = creditsData.credits;
+
+                //update credit display
+                const creditsAmount = document.getElementById('credits-amount');
+                if (creditsAmount) {
+                    creditsAmount.textContent = credits;
+                }
+
+                updateEggDisplay();
+                showMessage(`Successfully purchased ${randomEgg.img_src}!`, 'success');
+
+            } catch (error) {
+                console.error('Error purchasing egg:', error);
+                showMessage(error.message || 'Error purchasing egg. Please try again.', 'error');
+            }
+        }
+
+        //show messages
+        function showMessage(message, type) {
+            const messageArea = document.getElementById('message-area');
+            if (messageArea) {
+                messageArea.innerHTML = `<p style="color: ${type === 'error' ? 'red' : type === 'success' ? 'green' : 'blue'}; font-weight: bold;">${message}</p>`;
+
+                //get rid of message
+                setTimeout(() => {
+                    messageArea.innerHTML = '';
+                }, 3000);
+            }
+        }
+    </script>
+</body>
+
+</html>

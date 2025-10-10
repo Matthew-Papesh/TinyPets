@@ -9,42 +9,40 @@
 <body>
   <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a 
-            class="navbar-brand" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            href="https://www.google.com/search?q=tasker&oq=Tasker+&gs_lcrp=EgZjaHJvbWUqBggAEEUYOzIGCAAQRRg7Mg0IARAuGK8BGMcBGIAEMg0IAhAuGK8BGMcBGIAEMgcIAxAAGIAEMg0IBBAuGK8BGMcBGIAEMgoIBRAAGLEDGIAEMgcIBhAAGIAEMgcIBxAAGIAEMg0ICBAuGK8BGMcBGIAE0gEIMTMyOWowajeoAgCwAgA&sourceid=chrome&ie=UTF-8"
-        >
-            <img src="../assets/tasker.png" alt="MyPets Logo">
+        <a class="navbar-brand" href="#" onclick="redirect_dashboard(event); return false;" style="cursor: pointer;">
+            <img style="object-fit: contain; width: 4em; border-radius: 10px;" src="../assets/tasker.png">
         </a>
-        <button 
-            class="navbar-toggler" 
-            type="button" 
-            data-toggle="collapse" 
-            data-target="#navbarsExampleDefault" 
-            aria-controls="navbarsExampleDefault" 
-            aria-expanded="false" 
-            aria-label="Toggle navigation"
-          >
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+            aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <span class="nav-link" id="credits-display" style="color: #ffd700; font-weight: bold;">
-                  <img style="width: 1.5em; height:1.5em;" src="../assets/credit.png"> 
-                  Credits: <span id="credits-amount">0</span>
-                </span>
-            </li>
-            <li class="nav-item">
-                <button class="nav-link" onclick="redirect_dashboard(event)"><p>Home</p></button>
-            </li>
-            <li class="nav-item">
-                <button class="nav-link" onclick="redirect_store(event)"><p>Store</p></button>
-            </li>
-            <li class="nav-item">
-                <button class="nav-link" onclick="redirect_hatcher(event)"><p>Hatcher</p></button>
-            </li>
-        </ul>
+
+        <div class="collapse navbar-collapse" id="navbar-id">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="redirect_dashboard(event); return false;">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="redirect_hatching(event); return false;">Egg Hatching</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="redirect_mypets(event); return false;">My Pets</a><span
+                        class="sr-only">(current)</span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="redirect_store(event); return false;">Pet Store</a>
+                </li>
+                <li id="username"></li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <span class="nav-link" id="credits-display" style="color: #ffd700; font-weight: bold;">
+                        <img style="width: 1.5em; height:1.5em;" src="../assets/credit.png">
+                        Credits: <span id="credits-amount">0</span>
+                    </span>
+                </li>
+            </ul>
+        </div>
     </nav>
     
   <!-- vertically offset page content from navbar -->

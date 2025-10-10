@@ -117,6 +117,7 @@ body {
     background-image: url('../assets/store.png');
     background-size: cover;
     background-position: center;
+    background-color: transparent;
 }
 
 .panel-button-hatching {
@@ -127,6 +128,7 @@ body {
     background-size: contain;
     background-position: right;
     background-repeat: no-repeat;
+    background-color: transparent;
 }
 
 .panel-button-mypets {
