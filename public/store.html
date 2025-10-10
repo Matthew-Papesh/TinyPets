@@ -35,7 +35,7 @@
                     <a class="nav-link" href="#" onclick="redirect_dashboard(event); return false;">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" onclick="redirect_hatcher(event); return false;">Egg Hatching</a>
+                    <a class="nav-link" href="#" onclick="redirect_hatching(event); return false;">Egg Hatching</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#" onclick="redirect_mypets(event); return false;">My Pets</a>
@@ -106,12 +106,11 @@
 
             //display egg image and name
             if (eggDisplay) {
-                if (egg && egg.img_src) {
-                    const imageName = getEggImageFileName(egg.img_src);
+                if (egg && egg.src_img) {
                     eggDisplay.innerHTML = `
                         <div style="text-align: center;">
-                            <img src="../assets/${imageName}.png" alt="${egg.img_src}" style="width: 80px; height: 80px; display: block; margin: 0 auto;">
-                            <p style="margin-top: 10px; color: #333;">${egg.img_src}</p>
+                            <img src="../assets/${egg.src_img}.png" alt="${egg.src_img}" style="width: 80px; height: 80px; display: block; margin: 0 auto;">
+                            <p style="margin-top: 10px; color: #333;">${egg.src_img}</p>
                         </div>
                     `;
                 } else {
@@ -178,14 +177,16 @@
                     throw new Error(errorData.error || 'Failed to purchase egg');
                 }
 
-                // show new egg
-                const result =  await fetch(`/api/dashboard/${key}/egg`);
-                egg_res = await result.json();
-                egg = egg_res.egg
-                credits = result.credits;
-
+                // show new egg and update credits
+                const eggResult = await fetch(`/api/dashboard/${key}/egg`);
+                egg = await eggResult.json();
                 
-                //get new credit amount
+                // get updated credits
+                const creditsResult = await fetch(`/api/dashboard/${key}/credits`);
+                const creditsData = await creditsResult.json();
+                credits = creditsData.credits;
+
+                //update credit display
                 const creditsAmount = document.getElementById('credits-amount');
                 if (creditsAmount) {
                     creditsAmount.textContent = credits;

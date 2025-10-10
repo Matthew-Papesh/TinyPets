@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 		"bunny",
 		"panda",
 		"fish",
-		"stingray"
+		"stringray"
 	];
 
 	egg_dom.addEventListener("click", () => {
@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 				        console.error("Error adding credits:", err.message)
 				}
 				try {
-					const json = {key: key, src_img: egg.src, id: pets.length}
+					const json = {key: key, src_img: randomAnimal, id: pets.length}
 					const body = JSON.stringify(json)
 					const response = await fetch( "/pushpet", {
   						method:"POST",

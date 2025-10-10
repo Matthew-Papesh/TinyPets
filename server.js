@@ -305,9 +305,58 @@ app.post("/rmpet", async (req, res) => {
     }
 })
 
+// sell pet endpoint - removes pet and adds 100 credits
+app.post("/sellpet", async (req, res) => {
+    // get args from request 
+    const key = req.body.key
+    const src_img = req.body.src_img
+    const id = req.body.id
+    const sellPrice = 100  // all pets worth 100 credits
+
+    // try to update user account 
+    try {
+        // first check if user exists and has the pet
+        const user = await User.findOne({ key })
+        if (!user) {
+            return res.status(404).send("User not found")
+        }
+
+        // check if user actually has this pet
+        const hasPet = user.pets.some(pet => pet.src_img === src_img && pet.id === id)
+        if (!hasPet) {
+            return res.status(400).send("Pet not found in user's collection")
+        }
+
+        // remove pet and add credits in one atomic operation
+        const result = await User.updateOne(
+            { key },
+            { 
+                $pull: { pets: { src_img, id } },
+                $inc: { credits: sellPrice }
+            }
+        )
+        
+        // send error if this fails
+        if (result.matchedCount === 0) {
+            return res.status(404).send("User not found")
+        }
+        
+        // get updated user data to return new credit amount
+        const updatedUser = await User.findOne({ key })
+        
+        // respond to client
+        res.status(200).json({ 
+            message: "Pet sold successfully", 
+            credits: updatedUser.credits,
+            earnedCredits: sellPrice
+        })
+    } catch (err) {
+        res.status(500).send(`Server error: ${err.message}`)
+    }
+})
+
 // add request to add an egg to user account from user key
 app.post("/pushegg", async (req, res) => {
-    // get args from request 
     const key = req.body.key
     const src_img = req.body.src_img
     const id = req.body.id
