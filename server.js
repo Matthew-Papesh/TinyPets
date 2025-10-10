@@ -28,7 +28,7 @@ const user_schema = new mongoose.Schema({
     pets: [{img_src: String, id: Number}]
 }, { timestamps: true })
 
-//hello world
+//hello world: HEY EMMA
 
 const User = mongoose.model("User", user_schema)
 
