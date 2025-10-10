@@ -56,14 +56,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 })
 
 // handles redirecting user to dashboard 
-const redirect_dashboard = async function(event) {
-    
-}
-
+const redirect_dashboard = async function(event) {window.location.href = `/dashboard/${key}`}
 // handles redirecting user to their mypets page 
-const redirect_mypets = async function(event) {
-    window.location.href = `/mypets/${key}`
-}
+const redirect_mypets = async function(event) {window.location.href = `/mypets/${key}`}
+// handles redirecting user to their store page 
+const redirect_store = async function(event) {window.location.href = `/store/${key}`}
+// handles redirecting user to their hatcher page 
+const redirect_hatcher = async function(event) {window.location.href = `/hatcher/${key}`}
 
 // handles redirecting user to home page and flagging log out to server
 const logout = async function(event) {

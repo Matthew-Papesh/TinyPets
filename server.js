@@ -45,6 +45,10 @@ app.get("/dashboard", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "dashboard.html"))})
 app.get("/mypets", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "mypets.html"))})
+app.get("/store", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "store.html"))})
+app.get("/hatcher", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "hatcher.html"))})
 
 // send account page for each user page html (UNIQUE PAGE BY ACCOUNT)
 app.get("/dashboard/:key", async (req, res) => {
