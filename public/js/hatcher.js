@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
 	const egg = document.getElementById("eggImg");
 	const progressBar = document.getElementById("progressBar");
 	const progressText = document.getElementById("progressText");
@@ -49,8 +49,42 @@ document.addEventListener("DOMContentLoaded", () => {
 			egg.src = `../assets/${randomAnimal}.png`;
 			hatched = true;
 			progressText.textContent = "It hatched!";
+<<<<<<< HEAD
 
 			saveNewPet(randomAnimal);
+=======
+			setTimeout( async () => {
+				const json = {key: key, src_img: egg.src, id: pets.length}
+				const body = JSON.stringify(json)
+				
+				try {
+				        const response = await fetch(`/api/dashboard/${key}/credits`, {
+				            method: "POST",
+				            headers: { "Content-Type": "application/json" },
+				            body: JSON.stringify({ amount: 200 })
+				        })
+					
+				        if (!response.ok) {
+				            throw new Error("Failed to add credits")
+				        }
+					
+				        const data = await response.json()
+				        updateCreditsDisplay(data.credits)
+					
+				        console.log("Added 10 credits! New total:", data.credits)
+				    } catch (err) {
+				        console.error("Error adding credits:", err.message)
+				}
+
+				const response = await fetch( "/pushpet", {
+  					method:"POST",
+  					headers: { "Content-Type": "application/json" },
+  					body 
+  				})
+
+				window.location.href=`/dashboard/${key}`
+			}, 1000)
+>>>>>>> 69b857ce59b42490a43d4e4e5e07b4e886cca549
 		}
 
 		async function saveNewPet(animalName) {
@@ -91,7 +125,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
 		// Remove shake after animation
 		setTimeout(() => egg.classList.remove("shake"), 400);
-
-
 	});
 });

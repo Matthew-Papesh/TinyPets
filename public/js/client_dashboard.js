@@ -3,13 +3,22 @@ let username = "no-name"
 let key = ""
 let egg = {}
 let pets = []
+let credits = 0
 
 // loading user dashboard page.
 document.addEventListener("DOMContentLoaded", async () => {
-    const match = window.location.pathname.match(/\/dashboard\/(.+)/)
+    // Check for both dashboard and store URL patterns
+    let match = window.location.pathname.match(/\/dashboard\/(.+)/)
+    if (!match) {
+        match = window.location.pathname.match(/\/store\/(.+)/)
+    }
+    if (!match) {
+        match = window.location.pathname.match(/\/mypets\/(.+)/)
+    }
+
     // check url validity
     if (!match) {
-        return console.error("Invalid dashboard URL")
+        return console.error("Invalid page URL - no user key found")
     }
     // good match; parse user key from url
     key = match[1]
@@ -27,11 +36,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     // try to get user data info by api
     try {
-        const res_eggs = await fetch(`/api/dashboard/${key}/eggs`)
+        const res_egg = await fetch(`/api/dashboard/${key}/egg`)
         const res_pets = await fetch(`/api/dashboard/${key}/pets`)
-        eggs = await res_eggs.json()
+        egg = await res_egg.json()
         pets = await res_pets.json()
-        if (!res_eggs || !res_pets) {
+        if (!res_egg || !res_pets) {
             throw new Error("Failed to fetch user data")
         }
     } catch (err) {
@@ -69,7 +78,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (!response) {
             throw new Error("Failed to fetch user")
         }
-
+    
         data = await response.json()
         username = data.id
     } catch (err) {
@@ -99,8 +108,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 })
 
-
-
 // handles redirecting user to dashboard 
 const redirect_dashboard = async function (event) { window.location.href = `/dashboard/${key}` }
 // handles redirecting user to their mypets page 
@@ -108,7 +115,7 @@ const redirect_mypets = async function (event) { window.location.href = `/mypets
 // handles redirecting user to their store page 
 const redirect_store = async function (event) { window.location.href = `/store/${key}` }
 // handles redirecting user to their hatcher page 
-const redirect_hatcher = async function (event) { window.location.href = `/hatcher/${key}` }
+const redirect_hatching = async function (event) { window.location.href = `/hatcher/${key}` }
 
 // handles redirecting user to home page and flagging log out to server
 const logout = async function (event) {
@@ -171,12 +178,14 @@ const loadCredits = async function () {
         }
 
         const data = await response.json()
+        credits = data.credits || 0  // Set global credits variable
         const creditsAmount = document.getElementById("credits-amount")
         if (creditsAmount) {
-            creditsAmount.textContent = data.credits || 0
+            creditsAmount.textContent = credits
         }
     } catch (err) {
         console.error("Error loading credits:", err.message)
+        credits = 0  // Set global credits to 0 on error
         const creditsAmount = document.getElementById("credits-amount")
         if (creditsAmount) {
             creditsAmount.textContent = "0"
@@ -217,5 +226,19 @@ const addTestCredits = async function () {
         console.log("Added 10 credits! New total:", data.credits)
     } catch (err) {
         console.error("Error adding credits:", err.message)
+    }
+}
+
+//function that takes string and returns egg picture file name
+const getEggImageFileName = function (eggType) {
+    switch (eggType) {
+        case "Egg":
+            return "egg.png";
+        case "Uncommon Egg":
+            return "uncommon-egg.png";
+        case "Rare Egg":
+            return "rare-egg.png";
+        case "Legendary Egg":
+            return "legendary-egg.png";
     }
 }
