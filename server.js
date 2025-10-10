@@ -25,7 +25,7 @@ const user_schema = new mongoose.Schema({
     last_name: String, 
     credits: Number,
     egg: {img_src: String, id: Number},
-    pets: [{img_src: String, id: Number}]
+    pets: [{src_img: String, id: Number}]
 }, { timestamps: true })
 
 //hello world: HEY EMMA
@@ -178,7 +178,7 @@ app.get("/api/dashboard/:key/pets", async (req, res) => {
             return res.status(404).send("User not found")
         }
 
-        res.json(user.pets)
+        res.send(user.pets)
     } catch(err) {
         res.status(500).send(`Server error: ${err.message}`)
     }
@@ -309,7 +309,9 @@ app.post("/pushpet", async (req, res) => {
     // get args from request 
     const key = req.body.key
     const src_img = req.body.src_img
-    const id = req.body.id
+    const id = parseInt(req.body.id)
+
+    console.log(req.body)
 
     // try to update user account task list
     try {
