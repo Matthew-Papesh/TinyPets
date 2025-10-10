@@ -151,6 +151,51 @@ app.get("/api/dashboard/:key/pets", async (req, res) => {
     }
 })
 
+// send user account credits
+app.get("/api/dashboard/:key/credits", async (req, res) => {
+    const key = req.params.key
+    try {
+        // find user by key
+        let user = await User.findOne({ key })
+        if(!user) {
+            return res.status(404).send("User not found")
+        }
+
+        // Initialize credits if not set
+        if (user.credits === undefined || user.credits === null) {
+            user.credits = 100
+            await user.save()
+        }
+
+        res.json({ credits: user.credits || 0 })
+    } catch(err) {
+        res.status(500).send(`Server error: ${err.message}`)
+    }
+})
+
+// update user account credits
+app.post("/api/dashboard/:key/credits", async (req, res) => {
+    const key = req.params.key
+    const { amount } = req.body
+    
+    try {
+        // find user by key and update credits
+        const user = await User.findOneAndUpdate(
+            { key },
+            { $inc: { credits: amount } },
+            { new: true, upsert: false }
+        )
+        
+        if(!user) {
+            return res.status(404).send("User not found")
+        }
+
+        res.json({ credits: user.credits })
+    } catch(err) {
+        res.status(500).send(`Server error: ${err.message}`)
+    }
+})
+
 // receive request to remove egg from user account
 app.post("/rmegg", async (req, res) => {
     // get args from request 
@@ -271,7 +316,8 @@ app.post("/signup", async (req, res) => {
     try {
         // create a new user instance from req data
         const signed_in = false // mark as not signed in yet
-        const new_user = new User({ email, password, key, signed_in, first_name, last_name })
+        const credits = 100 // give new users 100 starting credits
+        const new_user = new User({ email, password, key, signed_in, first_name, last_name, credits })
         // attempt to save on mongo db
         await new_user.save()
         // succeeded; tell the client in res
