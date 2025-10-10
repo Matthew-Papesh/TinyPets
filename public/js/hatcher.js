@@ -18,7 +18,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 		"bunny",
 		"panda",
 		"fish",
-		"stingray"
+		"stingray",
+		"fireguy",
+		"bunny-bloody",
+		"flame",
+		"rock",
+		"patrick",
 	];
 
 	egg.addEventListener("click", () => {
