@@ -24,7 +24,7 @@ const user_schema = new mongoose.Schema({
     first_name: String,
     last_name: String,
     credits: Number,
-    egg: {img_src: String, id: Number},
+    egg: {src_img: String, id: Number},
     pets: [{src_img: String, id: Number}]
 }, { timestamps: true })
 
@@ -190,7 +190,7 @@ app.get("/api/dashboard/:key/egg", async (req, res) => {
             return res.status(404).send("User not found")
         }
 
-        res.json(user.egg)
+        res.send(user.egg)
     } catch (err) {
         res.status(500).send(`Server error: ${err.message}`)
     }
@@ -328,7 +328,7 @@ app.post("/pushegg", async (req, res) => {
         const result = await User.updateOne(
             { key },
             {
-                $set: { egg: { img_src: src_img, id } },
+                $set: { egg: {src_img, id } },
                 $inc: { credits: -cost }
             }
         )

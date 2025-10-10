@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     // good match; parse user key from url
     key = match[1]
+    
     // try to get user info and user task info by api
     try {
         const response = await fetch(`/api/dashboard/${key}/users`)
@@ -86,9 +87,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     // try to get user data info by api
     try {
-        const res_eggs = await fetch(`/api/dashboard/${key}/eggs`)
+        const res_egg = await fetch(`/api/dashboard/${key}/egg`)
         const res_pets = await fetch(`/api/dashboard/${key}/pets`)
-        eggs = await res_eggs.json()
+        egg = await res_egg.json()
         pets = await res_pets.json()
         if (!res_eggs || !res_pets) {
             throw new Error("Failed to fetch user data")
@@ -107,6 +108,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
 })
+
+const hatcher_panel_dom = document.getElementById("hatching-link-id")
+if(JSON.stringify(egg) === "{}" && hatcher_panel_dom !== null) {
+    hatcher_panel_dom.innerHTML = "<p>Must Buy Egg</p>"
+    hatcher_panel_dom.style = "background-color: grey; font-size: 5em; color: red;"
+}
 
 // handles redirecting user to dashboard 
 const redirect_dashboard = async function (event) { window.location.href = `/dashboard/${key}` }
