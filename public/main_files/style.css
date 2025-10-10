@@ -31,6 +31,28 @@ body {
     animation: simpleScroll 30s linear infinite;
 }
 
+/* Credits display styling */
+#credits-display {
+    color: #ffd700 !important;
+    font-weight: bold;
+    text-shadow: 2px 2px 0 #333;
+    border: 3px solid #ffd700;
+    border-radius: 0px; /* Remove rounded corners for 8-bit feel */
+    padding: 6px 12px;
+    margin-left: 10px;
+    background-color: #222034;
+    font-size: 16px;
+    font-family: 'VT323', monospace;
+    box-shadow: 3px 3px 0 #1a1a2e;
+}
+
+#credits-display:hover {
+    background-color: #333458;
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0 #1a1a2e;
+    transition: all 0.1s ease;
+}
+
 /* Navigation Bar */
 .navbar {
     width: 100%;
@@ -55,23 +77,35 @@ body {
 .navbar-nav {
     display: flex;
     list-style: none;
+    align-items: center;
     margin: 0;
     padding: 0;
 }
 
 .nav-item {
-    margin-left: 20px;
+    margin-left: 1em;
 }
 
-.nav-link {
+.nav-link > p {
     color: #29adff;
     text-decoration: none;
-    font-size: 18px;
+    font-size: 1.5em;
+    font-weight: 400;
     transition: color 0.3s;
+    padding: 0;
+    margin-bottom: 0;
+    margin-top: 0;
+    margin-left: 2em;
 }
 
-.nav-link:hover {
+
+.nav-link:hover > p {
     color: #089113;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 0;
+    margin-top: 0;
+    margin-left: 2em;
 }
 
 /* Main Content Area */
@@ -114,7 +148,7 @@ body {
 
 .form-group label {
     display: block;
-    font-size: 18px;
+    font-size: 24px;
     margin-bottom: 8px;
     color: #4da6ff;
 }
