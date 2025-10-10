@@ -49,7 +49,45 @@ document.addEventListener("DOMContentLoaded", () => {
 			egg.src = `../assets/${randomAnimal}.png`;
 			hatched = true;
 			progressText.textContent = "It hatched!";
+
+			saveNewPet(randomAnimal);
 		}
+
+		async function saveNewPet(animalName) {
+			try {
+				// Extract key from URL (same as in client_dashboard.js)
+				const match = window.location.pathname.match(/\/hatcher\/(.+)/);
+				if (!match) throw new Error("Invalid hatcher URL");
+				const key = match[1];
+
+				// Create pet JSON data (you can expand fields as your API supports)
+				const petData = {
+					name: animalName,
+					type: animalName,
+					hatched_at: new Date().toISOString(),
+				};
+
+				const response = await fetch(`/api/dashboard/${key}/pets`, {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify(petData),
+				});
+
+				if (!response.ok) {
+					throw new Error(`Failed to save pet: ${response.statusText}`);
+				}
+
+				const data = await response.json();
+				console.log("Pet saved successfully:", data);
+
+				// Optional visual feedback
+				progressText.textContent = `You hatched a ${animalName}!`;
+			} catch (err) {
+				console.error("Error saving pet:", err.message);
+			}
+		}
+
+
 
 		// Remove shake after animation
 		setTimeout(() => egg.classList.remove("shake"), 400);
