@@ -28,6 +28,8 @@ const user_schema = new mongoose.Schema({
     pets: [{img_src: String, id: Number}]
 }, { timestamps: true })
 
+//hello world
+
 const User = mongoose.model("User", user_schema)
 
 // send home page html
