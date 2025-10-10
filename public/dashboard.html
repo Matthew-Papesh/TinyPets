@@ -2,21 +2,13 @@
 <!-- saved from url=(0048)https://getbootstrap.com/docs/4.0/examples/grid/ -->
 <html lang="en">
 
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Name of page -->
+<title>TinyPets - Dashboard</title>
+<!-- Bootstrap core CSS -->
+<link href="../dashboard_files/bootstrap.min.css" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link href="../dashboard_files/style.css" rel="stylesheet">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <link rel="icon" href="https://getbootstrap.com/docs/4.0/assets/img/favicons/favicon.ico">
-  <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/grid/">
-
-  <!-- Name of page -->
-  <title>TinyPets - Dashboard</title>
-  <!-- Bootstrap core CSS -->
-  <link href="../dashboard_files/bootstrap.min.css" rel="stylesheet">
-  <!-- Custom styles for this template -->
-  <link href="../dashboard_files/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -32,16 +24,28 @@
 
     <div class="collapse navbar-collapse" id="navbar-id">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="/#hatching">Egg Hatching</a><span class="sr-only">(current)</span>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/#mypets">My Pets</a>
-        </li>
-        <li>
-          <a class="nav-link" href="/#petstore">Pet Store</a>
-        </li>
         <li id="username"></li>
+        <li class="nav-item">
+
+          <span class="nav-link" id="credits-display" style="color: #ffd700; font-weight: bold;">
+            <img style="width: 1.5em; height:1.5em;" src="../assets/credit.png">
+            Credits: <span id="credits-amount">0</span>
+          </span>
+        </li>
+        <li class="nav-item">
+          <button id="test-credits-btn" class="btn btn-sm"
+            style="background-color: #089113; color: white; border: none; margin-left: 10px; padding: 4px 8px; border-radius: 4px;">
+            +10 Credits (Test)
+          </button>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <button id="logout-btn" class="btn btn-sm"
+            style="background-color: #ff004d; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-family: 'VT323', monospace; font-size: 16px;">
+            LOGOUT
+          </button>
+        </li>
       </ul>
     </div>
   </nav>
@@ -49,24 +53,23 @@
   <!-- vertically offset page content from navbar -->
   <div style="padding: 2em;"></div>
   <!-- render main dashboard menu panels -->
-  <div style="display: flex; flex-direction: row; width: 80dvw; height: 80dvh; margin: 0 auto; margin-top: 3em;">
+  <div style="display: flex; flex-direction: row; width: 80dvw; height: 85dvh; margin: 0 auto; margin-top: 3em;">
     <div style="width: 50%; height: 100%;">
-      <a class="panel" target="_blank" href="/#home">
-        <div class="panel-button-petstore"></div>
-      </a>
+      <button class="panel panel-button-petstore" target="_blank">
+      </button>
     </div>
     <div style="display: flex; flex-direction: column; width: 50%; height: 100%;">
-      <div style="width: 100%; height: 60%; border-radius: 20px; margin-bottom: 1em; margin-left: 2em; padding: 0em;">
-        <a class="panel" target="_blank" href="/#home">
-          <div class="panel-button-hatching"></div>
-        </a>
+      <div style="width: 100%; height: 67%; border-radius: 20px; margin-bottom: 1em; margin-left: 2em; padding: 0em;">
+        <button class="panel panel-button-hatching" target="_blank">
+        </button>
       </div>
-      <div style="width: 100%; height: 40%; border-radius: 20px; margin-top: 1em; margin-left: 2em; padding: 1em;">
-        <a class="panel" target="_blank" href="/#home">
-          <div class="panel-button-mypets"></div>
-        </a>
+      <div style="width: 100%; height: 33%; border-radius: 20px; margin-top: 1em; margin-left: 2em; padding: 0em;">
+        <button id="mypets-link-id" class="panel panel-button-mypets" onclick="redirect_mypets(event)">
+        </button>
       </div>
     </div>
+  </div>
+  </div>
   </div>
   </div>
   <script src="../js/client_dashboard.js"></script>

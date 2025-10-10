@@ -44,6 +44,10 @@ app.get("/dashboard", (req, res) => {
 app.get("/store", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "store.html"))
 })
+res.sendFile(path.join(__dirname, "public", "dashboard.html"))})
+app.get("/mypets", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "mypets.html"))
+})
 
 // send account page for each user page html (UNIQUE PAGE BY ACCOUNT)
 app.get("/dashboard/:key", async (req, res) => {
@@ -99,6 +103,33 @@ app.get("/store/:key", async (req, res) => {
     console.log(key)
     res.sendFile(path.join(__dirname, "public", "store.html"))
 })
+// send mypets page for each user (UNIQUE PAGE BY ACCOUNT)
+app.get("/mypets/:key", async (req, res) => {
+    const key = req.params.key
+    if (key !== "0") {
+        // handle finding user
+        try {
+            // find user by key
+            const user = await User.findOne({ key })
+            // handle if user not found
+            if (!user) {
+                return res.status(404).send("User not found")
+            }
+
+            // only send html if signed in from sign in page
+            if (user.signed_in) {
+                res.sendFile(path.join(__dirname, "public", "mypets.html"))
+            } else {
+                res.status(401).send("Not authorized")
+            }
+        } catch (err) {
+            res.status(500).send(`Server error: ${err.message}`)
+        }
+    }
+
+    console.log(key)
+    res.sendFile(path.join(__dirname, "public", "mypets.html"))
+})
 // send user account info
 app.get("/api/dashboard/:key/users", async (req, res) => {
     const key = req.params.key
@@ -147,6 +178,51 @@ app.get("/api/dashboard/:key/pets", async (req, res) => {
         }
 
         res.json(user.pets)
+    } catch (err) {
+        res.status(500).send(`Server error: ${err.message}`)
+    }
+})
+
+// send user account credits
+app.get("/api/dashboard/:key/credits", async (req, res) => {
+    const key = req.params.key
+    try {
+        // find user by key
+        let user = await User.findOne({ key })
+        if (!user) {
+            return res.status(404).send("User not found")
+        }
+
+        // Initialize credits if not set
+        if (user.credits === undefined || user.credits === null) {
+            user.credits = 100
+            await user.save()
+        }
+
+        res.json({ credits: user.credits || 0 })
+    } catch (err) {
+        res.status(500).send(`Server error: ${err.message}`)
+    }
+})
+
+// update user account credits
+app.post("/api/dashboard/:key/credits", async (req, res) => {
+    const key = req.params.key
+    const { amount } = req.body
+
+    try {
+        // find user by key and update credits
+        const user = await User.findOneAndUpdate(
+            { key },
+            { $inc: { credits: amount } },
+            { new: true, upsert: false }
+        )
+
+        if (!user) {
+            return res.status(404).send("User not found")
+        }
+
+        res.json({ credits: user.credits })
     } catch (err) {
         res.status(500).send(`Server error: ${err.message}`)
     }
@@ -272,7 +348,8 @@ app.post("/signup", async (req, res) => {
     try {
         // create a new user instance from req data
         const signed_in = false // mark as not signed in yet
-        const new_user = new User({ email, password, key, signed_in, first_name, last_name })
+        const credits = 100 // give new users 100 starting credits
+        const new_user = new User({ email, password, key, signed_in, first_name, last_name, credits })
         // attempt to save on mongo db
         await new_user.save()
         // succeeded; tell the client in res

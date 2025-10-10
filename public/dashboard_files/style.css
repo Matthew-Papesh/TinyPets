@@ -8,6 +8,16 @@
     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+/* Background Animations */
+@keyframes simpleScroll {
+    0% { 
+        background-position: 0% center; 
+    }
+    100% { 
+        background-position: 200% center; 
+    }
+}
+
 body {
     font-family: 'VT323', monospace;
     background-color: #87CEEB; 
@@ -19,10 +29,54 @@ body {
     min-height: 100vh;
     letter-spacing: 1px;
     background-image: url('../assets/pixel-trees-background.png');
-    background-size: contain;
+    background-size: cover;
     background-position: center;
     background-repeat:repeat-x;
     background-attachment: fixed;
+    animation: simpleScroll 30s linear infinite;
+}
+
+/* Navigation Bar */
+.navbar {
+    width: 100%;
+    background-color: rgba(49, 54, 56, 0.9);
+    border-bottom: 3px solid #089113;
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-brand img {
+    object-fit: contain;
+    width: 4em;
+    border-radius: 10px;
+}
+
+.navbar-nav {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item {
+    margin-left: 20px;
+}
+
+.nav-link {
+    color: #29adff;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: #089113;
 }
 
 @keyframes pulse {
@@ -42,6 +96,8 @@ body {
     background-color: lemonchiffon;
     opacity: 1;
     box-shadow: 10px 5px 10px 2px rgba(0, 0, 0, 0.3);
+    border-color: transparent;
+    border-width: 0;
     
 }
 
@@ -81,5 +137,87 @@ body {
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
+    background-color: transparent;
+}
+
+/* Credits display styling */
+#credits-display {
+    color: #ffd700 !important;
+    font-weight: bold;
+    text-shadow: 2px 2px 0 #333;
+    border: 3px solid #ffd700;
+    border-radius: 0px; /* Remove rounded corners for 8-bit feel */
+    padding: 6px 12px;
+    margin-left: 10px;
+    background-color: #222034;
+    font-size: 16px;
+    font-family: 'VT323', monospace;
+    box-shadow: 3px 3px 0 #1a1a2e;
+}
+
+#credits-display:hover {
+    background-color: #333458;
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0 #1a1a2e;
+    transition: all 0.1s ease;
+}
+
+/* Logout button styling */
+#logout-btn {
+    background-color: #ff004d !important;
+    color: white !important;
+    border: 3px solid #ff77a9 !important;
+    border-radius: 0px !important; /* Pixelated corners */
+    padding: 8px 16px !important;
+    font-family: 'VT323', monospace !important;
+    font-size: 18px !important;
+    font-weight: bold;
+    text-shadow: 2px 2px 0 #000;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 #d1003a;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#logout-btn:hover {
+    background-color: #ff77a9 !important;
+    border-color: #ff004d !important;
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0 #d1003a;
+    transition: all 0.1s ease;
+}
+
+#logout-btn:active {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0 #d1003a;
+}
+
+/* Test credits button styling */
+#test-credits-btn {
+    background-color: #089113 !important;
+    color: white !important;
+    border: 3px solid #29adff !important;
+    border-radius: 0px !important;
+    padding: 6px 12px !important;
+    font-family: 'VT323', monospace !important;
+    font-size: 14px !important;
+    font-weight: bold;
+    text-shadow: 1px 1px 0 #000;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 #065a0d;
+    text-transform: uppercase;
+}
+
+#test-credits-btn:hover {
+    background-color: #29adff !important;
+    border-color: #089113 !important;
+    transform: translate(-1px, -1px);
+    box-shadow: 3px 3px 0 #065a0d;
+    transition: all 0.1s ease;
+}
+
+#test-credits-btn:active {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0 #065a0d;
 }
 
