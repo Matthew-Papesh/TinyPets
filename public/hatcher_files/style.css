@@ -1,3 +1,12 @@
+/* Background Animations */
+@keyframes simpleScroll {
+    0% { 
+        background-position: 0% center; 
+    }
+    100% { 
+        background-position: 200% center; 
+    }
+}
 
 .eggs-container {
 	width: 300px;
@@ -30,8 +39,10 @@ body {
     min-height: 100vh;
     letter-spacing: 1px;
     background-image: url('../assets/bg_tile.png');
-    background-size: 100% 100%; 
+    background-size: 200% 100%; 
     background-position: 0% center;
+    background-repeat: repeat-x;
+    animation: simpleScroll 30s linear infinite;
 }
 
 /* Egg shake animation */

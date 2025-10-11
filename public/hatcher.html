@@ -10,6 +10,8 @@
 	<link href="../dashboard_files/bootstrap.min.css" rel="stylesheet">
 	<!-- 8-bit  Styling -->
 	<link href="../hatcher_files/style.css" rel="stylesheet">
+	<!-- 8-bit  Styling -->
+    <link href="../main_files/style.css" rel="stylesheet">
 	
 </head>
 
@@ -52,11 +54,12 @@
 		</div>
 	</nav>
 
-	<div id="eggs-container">
-		<img id="eggImg" src="../assets/egg.png" alt="Egg" />
+	<div id="eggs-container" class="container" style="width: 23%; border-radius: 15px;">
+		<h2 style="color:#ffd700">Hatch Egg Here:</h2>
+		<img id="eggImg" style="width: 100%;" src="../assets/egg.png" alt="Egg" />
 	</div>
 
-	<div id="progress-container" style="background-color: darkslategrey;">
+	<div id="progress-container" style="background-color: darkslategrey; width: 26%;">
 		<div id="progressBar"></div>
 		<p id="progressText">0 / 100</p>
 	</div>
@@ -65,11 +68,10 @@
 	<!-- vertically offset page content from navbar -->
 	<div style="padding: 2em;"></div>
 	<!-- Main Content -->
-	<div class="container">
-
-		<script src="../js/client.js"></script>
-		<script src="../js/client_dashboard.js"></script>
-		<script src="../js/hatcher.js"></script>
+	
+	<script src="../js/client.js"></script>
+	<script src="../js/client_dashboard.js"></script>
+	<script src="../js/hatcher.js"></script>
 
 </body>
 
