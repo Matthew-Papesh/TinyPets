@@ -24,7 +24,7 @@ const user_schema = new mongoose.Schema({
     first_name: String,
     last_name: String,
     credits: Number,
-    egg: {src_img: String, id: Number},
+    egg: {name: String, src_img: String, id: Number},
     pets: [{src_img: String, id: Number}]
 }, { timestamps: true })
 
@@ -358,6 +358,7 @@ app.post("/sellpet", async (req, res) => {
 // add request to add an egg to user account from user key
 app.post("/pushegg", async (req, res) => {
     const key = req.body.key
+    const name = req.body.name 
     const src_img = req.body.src_img
     const id = req.body.id
     const cost = req.body.cost || 100  // default cost of 100 credits
@@ -377,7 +378,7 @@ app.post("/pushegg", async (req, res) => {
         const result = await User.updateOne(
             { key },
             {
-                $set: { egg: {src_img, id } },
+                $set: { egg: {name, src_img, id } },
                 $inc: { credits: -cost }
             }
         )

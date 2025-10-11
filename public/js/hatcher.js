@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 	const egg_json = await res_egg.json()
 	const eggSet = egg_json.src_img
 	egg_dom.src = `../assets/${eggSet}.png`;
-	console.log(eggSet)
 
 	// Animal image options
 	const animals = [
@@ -21,7 +20,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 		"bunny",
 		"panda",
 		"fish",
-		"stringray"
+		"stringray", 
+		"rock"
+	];
+
+	const legends = [
+		"patrick", 
+		"fireguy",
+		"flame",
+		"bunny-bloody" 
 	];
 
 	egg_dom.addEventListener("click", () => {
@@ -46,9 +53,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 			progressText.textContent = "It's starting to crack...";
 		}
 
-		if (clicks === 100 && !hatched) {
+		if (clicks >= 100 && !hatched) {
 			// Hatch into random animal
-			const randomAnimal = animals[Math.floor(Math.random() * animals.length)];
+			let randomAnimal = animals[Math.floor(Math.random() * animals.length)];
+			if(eggSet === 'rare-egg') { // hatch legendary animal
+				randomAnimal = legends[Math.floor(Math.random() * legends.length)];
+			}
+
 			egg_dom.src = `../assets/${randomAnimal}.png`;
 			hatched = true;
 			progressText.textContent = "It hatched!";
